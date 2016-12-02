@@ -269,5 +269,4 @@ if isGraphic:
     turtle.mainloop()
     
     ##commit
-    ##dankmemes
     ##Hello
