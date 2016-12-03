@@ -32,7 +32,7 @@ planets=[] #need mutable global list to manipulate in init
 
 print("Welcome to Planets, Aliens, and Explosions")
 
-##Astronaut Data:
+#Astronaut Data:
 Name=input("What's your name? ")
 Position=[0] ##initiation placeholder for player
 Fuel=input("how much fuel will you start with? ")   ##needs validation?
@@ -42,7 +42,7 @@ Rocks=[]
 #Player Data
 player = [Name, Position, Fuel, Civ, Rocks]
 
-init()
+Current.init() #note to self modify jack's init to put setpythonplanet to top level 
 print(planets)
 
 while True: ##main game loop
@@ -59,3 +59,5 @@ i = int(input("Which Planet would you like to make to be the PythonPlanet?\n"))
 ##needs validation wrt the amount of planets present
 planets[i][3]=True  ##default value in data matrix is False so we set it to True
 '''
+
+#setpythonplanet
