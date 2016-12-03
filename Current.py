@@ -14,7 +14,6 @@ def loadfile():
     global planetcount
     planetcount = 0
     for line in fileRef:
-        print(line)
         string = line[0:len(line)-1] ##temporarily taking away the dashes
         stringlist.append(string)
         planetcount +=1
@@ -25,12 +24,21 @@ def loadfile():
     for line in datalist:
         for dig in line:
             dig = int(dig)
-    for q in range(len(datalist)):  ##q is an arbitraily assigned counter
-        presetplanet[q][0].extend(datalist[q])
-        datalist.remove(datalist[q])
-        planets.append(presetplanet[q])
-    for extra in datalist:  
-        planets.append(datalist[extra])
+    if len(datalist) <= len(presetplanet):
+        for q in range(len(datalist)):  ##q is an arbitraily assigned counter
+            presetplanet[q][0].extend(datalist[q])
+            planets.append(presetplanet[q])
+    else:   ##needs to be fixed when the list is longer than 10
+        for q in range(len(presetplanet)):  ##q is an arbitraily assigned counter
+            presetplanet[q][0].extend(datalist[q])
+            planets.append(presetplanet[q])
+            q+=1
+        datalist = datalist[q:]
+        for l in range(len(datalist)):
+            extraplanet=[]
+            extraplanet.append(datalist[l])
+            extraplanet.append(False)
+            planets.append(extraplanet)
 def setPythonPlanet():
     '''modifies the isPythonPlanet parameter to true, to be used at the beginning of game loop'''
     i = int(input("Which Planet would you like to make to be the PythonPlanet?\n"))
@@ -135,7 +143,7 @@ def debris(planet):
         stone.pu()
         stone.setpos(planet[1][0],planet[1][1])
 def travel(coordinate):
-    '''receives call from the coordinate list, which is planets[...][0]'''
+    '''receives call from the coordinate list, which is planets[...][2]'''
     player[1] = coordinate   ##the player's position is now the planet's position    
     if isGraphic:
         astronaut.goto(coordinate[0],coordinate[1])
@@ -145,7 +153,7 @@ def DiceRoll():
 ##Event Functions
 def playermove():
     destination=int(input("Which Planet would you like to go to? "))    ##Validate wrt # of planets
-    travel(planets[destination][1])
+    travel(planets[destination][2])
 def backdropinit():
     ##doesn't run if no graphics are open
     stars=[]
@@ -201,7 +209,7 @@ def astronautinit():
     global astronaut
     astronaut=turtle.Turtle()    
     astronaut.pu()
-    travel(planets[0][1])
+    travel(planets[0][2])
     astronaut.pd()
     astronaut.speed(1)
     astronaut.color("#DCDCDC")
@@ -232,16 +240,16 @@ import time     ##only used for delays in flashing screen
 print("Welcome to Planets, Aliens, and Explosions")
 
 ##Planet data: calculations,position,visual,isPythonPlanet 
-planet0 = [[],[-220,200],[50,10,5,30],False]
-planet1 = [[],[210,110],[55,10,3,60],False]
-planet2 = [[],[0,-200],[60,15,4,90],False]
-planet3 = [[],[-220,-200],[35,5,6,45],False]
-planet4 = [[],[150,-100],[40,10,8,0],False]
-planet5 = [[],[0,-50],[25,4,10,180],False]
-planet6 = [[],[10,100],[30,5,3,80],False]
-planet7 = [[],[-200,-75],[30,10,4,120],False]
-planet8 = [[],[150,200],[45,10,4,50],False]
-planet9 = [[],[230,-200],[25,3,5,270],False]
+planet0 = [[],False,[-220,200],[50,10,5,30]]
+planet1 = [[],False,[210,110],[55,10,3,60]]
+planet2 = [[],False,[0,-200],[60,15,4,90]]
+planet3 = [[],False,[-220,-200],[35,5,6,45]]
+planet4 = [[],False,[150,-100],[40,10,8,0]]
+planet5 = [[],False,[0,-50],[25,4,10,180]]
+planet6 = [[],False,[10,100],[30,5,3,80]]
+planet7 = [[],False,[-200,-75],[30,10,4,120]]
+planet8 = [[],False,[150,200],[45,10,4,50]]
+planet9 = [[],False,[230,-200],[25,3,5,270]]
 presetplanet = [planet0,planet1,planet2,planet3,planet4,planet5,planet6,planet7,planet8,planet9]
 
 planets=[]
