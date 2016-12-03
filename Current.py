@@ -12,9 +12,9 @@ import time     ##only used for delays in flashing screen
 ##functional definitions
 def loadfile():
     '''loads the file to be read''' 
-    #file = str(input("Please enter the name of the txt file to import.\nPlease remember to type .txt after the file\nDISCLAIMER:In order for the grapics mode to function properly, \nplease import a maximum of ten planets\nelse, graphics will be automatically cancelled\nNow Please enter the filename: "))
+    file = str(input("Please enter the name of the txt file to import.\nPlease remember to type .txt after the file\nDISCLAIMER:In order for the grapics mode to function properly, \nplease import a maximum of ten planets\nelse, graphics will be automatically cancelled\nNow Please enter the filename: "))
     ###needs validation to get the right file
-    fileRef = open("planetsData1.txt","r")
+    fileRef = open(file,"r")
     stringlist=[]
     global planetcount
     planetcount = 0
@@ -88,7 +88,6 @@ def drawquasirecursive_planet(t,planet):
     ##doesn't run if no graphics are open
     t.rt(random.randint(1,359))
     recursing = True
-    print(planet)
     length = planet[0]
     while recursing == True:    ##dont use recursion and while loop together
         if length <= 0:
