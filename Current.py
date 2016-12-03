@@ -7,38 +7,30 @@
 ##functional definitions
 def loadfile():
     '''loads the file to be read''' 
-    file = str(input("Please enter the name of the txt file to import.\nPlease remember to type .txt after the file\nDISCLAIMER:In order for the grapics mode to function properly, \nplease import a maximum of ten planets\nNow Please enter the filename: "))
-    ##needs validation to get the right file
-    fileRef = open(file,"r")
+    #file = str(input("Please enter the name of the txt file to import.\nPlease remember to type .txt after the file\nDISCLAIMER:In order for the grapics mode to function properly, \nplease import a maximum of ten planets\nelse, graphics will be automatically cancelled\nNow Please enter the filename: "))
+    ###needs validation to get the right file
+    fileRef = open("planetsData1.txt","r")
     stringlist=[]
-    ## <My intense dumbassery>
+    global planetcount
+    planetcount = 0
     for line in fileRef:
-        string = "-"+line[0:len(line)-1]+"-"
+        print(line)
+        string = line[0:len(line)-1] ##temporarily taking away the dashes
         stringlist.append(string)
+        planetcount +=1
     fileRef.close()
     datalist=[]
-    for i in range(len(stringlist)):
-        datalist.append([])
-        dashplaces=[]
-        for e in range(len(stringlist[i])): ##e is an arbitraily assigned counter
-            if stringlist[i][e] == "-":
-                dashplaces.append(e)
-        dash=1
-        for d in range(3):  ##d is an arbitraily assigned counter
-            datalist[i].append(int(stringlist[i][dashplaces[dash-1]+1:dashplaces[dash]]))
-            dash+=1
-    ## </My intense dumbassery>
-    if len(datalist) <= len(presetplanet):
-        for q in range(len(datalist)):  ##q is an arbitraily assigned counter
-            presetplanet[q][0].extend(datalist[q])
-            planets.append(presetplanet[q])
-    else:   ##needs to be fixed when the list is longer than 10
-        for q in range(len(datalist)):  ##q is an arbitraily assigned counter
-            presetplanet[q][0].extend(datalist[q])
-            datalist.remove(datalist[q])
-            planets.append(presetplanet[q])
-        for extra in datalist:
-            planets.append(datalist[extra])
+    for line in stringlist:
+        datalist.append(line.split("-"))
+    for line in datalist:
+        for dig in line:
+            dig = int(dig)
+    for q in range(len(datalist)):  ##q is an arbitraily assigned counter
+        presetplanet[q][0].extend(datalist[q])
+        datalist.remove(datalist[q])
+        planets.append(presetplanet[q])
+    for extra in datalist:  
+        planets.append(datalist[extra])
 def setPythonPlanet():
     '''modifies the isPythonPlanet parameter to true, to be used at the beginning of game loop'''
     i = int(input("Which Planet would you like to make to be the PythonPlanet?\n"))
@@ -219,7 +211,10 @@ def init():
     loadfile()
     setPythonPlanet()
     global isGraphic
-    isGraphic=isGraphic()
+    if planetcount > 10:
+        isGraphic = False
+    else:
+        isGraphic=isGraphic()
     if isGraphic:
         turtle.bgcolor("#010001")
         turtle.title("Loading...")
