@@ -7,8 +7,11 @@
 #Main loop
 
 #local imports
-import graphics as gfx
-import nongfx as ngfx
+import graphics as gfx #important ones are AmazingExplosion, MildExplosion, and travel
+#AE destroys planet as well and does gfx, ME is only gfx, and travel assigns a coord. as well as does gfx
+import nongfx as ngfx #important is DiceRoll
+#DE rolls 6 sided die
+
 
 #import
 import time
@@ -69,7 +72,7 @@ while True: ##main game loop
     ##Update Game board
     destination=int(input("Which Planet would you like to go to? "))    ##Validate wrt # of planets #valid this with an if, if true do everything else, if false continue loop
     
-    
+    #the main 3 to run
     gfx.MildExplosion(planets[1]) #only draws, need to spread rock specimens in calc
     gfx.AmazingExplosion(planets[1],planets) #kills the planet graphically and irl or just irl
     gfx.travel(planets[destination][2],player) #works, after trying to travel to 10th planet that doesnt exist, dies
