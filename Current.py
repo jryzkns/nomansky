@@ -117,7 +117,7 @@ def wipeplanet(t,planet):
     t.color("black","black")
     t.pen(shown = False)
     t.pu()
-    t.setpos(planet[1][0],planet[1][1]) ##goes to the centre of the planet
+    t.setpos(planet[2][0],planet[2][1]) ##goes to the centre of the planet
     t.pd()
     t.rt(90)
     t.fd(70)    ##goes below the planet
@@ -132,7 +132,7 @@ def debris(planet):
     stone.pen(shown=False)
     stone.pu()
     stone.speed(0)
-    stone.setpos(planet[1][0],planet[1][1])     ##goes to the centre of the planet
+    stone.setpos(planet[2][0],planet[2][1])     ##goes to the centre of the planet
     for i in range(5):  ##makes debris here
         stone.rt(random.randint(0,180))
         stone.fd(random.randint(50,75))
@@ -143,7 +143,7 @@ def debris(planet):
         stone.circle(5)
         stone.end_fill()
         stone.pu()
-        stone.setpos(planet[1][0],planet[1][1])
+        stone.setpos(planet[2][0],planet[2][1])
 def travel(coordinate,player):
     '''receives call from the coordinate list, which is planets[...][2]'''
     player[1] = coordinate   ##the player's position is now the planet's position    
