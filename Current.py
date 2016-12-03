@@ -10,9 +10,8 @@ import turtle   ##reference link https://docs.python.org/3.5/library/turtle.html
 import random
 import time     ##only used for delays in flashing screen
 
-
 ##functional definitions
-def loadfile(file):
+def loadfile(file, presetplanet, planets):
     '''loads the file to be read''' 
     fileRef = open(file,"r")
     stringlist=[]
@@ -44,7 +43,7 @@ def loadfile(file):
             extraplanet.append(datalist[l])
             extraplanet.append(False)
             planets.append(extraplanet)
-def setPythonPlanet(pythonplanet):
+def setPythonPlanet(pythonplanet,planets):
     '''modifies the isPythonPlanet parameter to true, to be used at the beginning of game loop'''
     planets[pythonplanet][1]=True  ##default value in data matrix is False so we set it to True
 def isGraphic():
@@ -145,7 +144,7 @@ def debris(planet):
         stone.end_fill()
         stone.pu()
         stone.setpos(planet[1][0],planet[1][1])
-def travel(coordinate):
+def travel(coordinate,player):
     '''receives call from the coordinate list, which is planets[...][2]'''
     player[1] = coordinate   ##the player's position is now the planet's position    
     if isGraphic:
@@ -153,10 +152,12 @@ def travel(coordinate):
 def DiceRoll():
     '''rolls a dice, nuff said'''
     return(random.randint(1,6))
+
 ##Event Functions
 def playermove():
     destination=int(input("Which Planet would you like to go to? "))    ##Validate wrt # of planets
     travel(planets[destination][2])
+    
 def backdropinit():
     ##doesn't run if no graphics are open
     stars=[]
@@ -192,7 +193,7 @@ def MildExplosion(boomplanet):
         ScreenFlash()       ##Aesthetic :^)
         debris(boomplanet)  ##Aesthetic :^)
         defaulttitle()
-def AmazingExplosion(boomplanet):
+def AmazingExplosion(boomplanet,planets):
     '''takes in planets[...]'''
     print("Amazing Explosion!!")
     planets.remove(boomplanet)       ##destroys the planet data
@@ -207,20 +208,20 @@ def AmazingExplosion(boomplanet):
         turtle.title("A planet has been destroyed!")
         home(eraser)        ##placeholder for something to happen before changing titles
         defaulttitle()
-def astronautinit():
+def astronautinit(planets,player):
     '''initializes the astronaut variable, and puts the astronaut onto home planet'''
     global astronaut
     astronaut=turtle.Turtle()    
     astronaut.pu()
-    travel(planets[0][2])
+    travel(planets[0][2],player)
     astronaut.pd()
     astronaut.speed(1)
     astronaut.color("#DCDCDC")
     astronaut.pensize(10)
-def init():
+def init(file, pythonplanet, presetplanet, planets,player):
     '''initiatizes everything'''
-    loadfile(file)
-    setPythonPlanet(pythonplanet)
+    loadfile(file, presetplanet, planets)
+    setPythonPlanet(pythonplanet, planets)
     global isGraphic
     if planetcount > 10:
         isGraphic = False
@@ -232,7 +233,7 @@ def init():
         backdropinit()
         planetinit(planets)
         defaulttitle()
-        astronautinit()
+        astronautinit(planets,player)
         
 '''
 ##TOP LEVEL##

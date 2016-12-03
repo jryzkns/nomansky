@@ -49,13 +49,15 @@ file = str(input("Please enter the name of the txt file to import.\nPlease remem
 pythonplanet = int(input("Which Planet would you like to make to be the PythonPlanet?\n"))
 ##needs validation wrt the amount of planets present
 
-Current.init() #note to self modify jack's init to put setpythonplanet to top level 
+Current.init(file, pythonplanet, presetplanet, planets,player) #note to self modify jack's init to put setpythonplanet to top level 
 print(planets)
 
 while True: ##main game loop
     ##Update Game board
     destination=int(input("Which Planet would you like to go to? "))    ##Validate wrt # of planets
-    travel(planets[destination][2])    
+    Current.MildExplosion(planets[1])
+    Current.AmazingExplosion(planets[1],planets)
+    Current.travel(planets[destination][2],player)    
 
 if isGraphic:
     turtle.mainloop()
