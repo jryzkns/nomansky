@@ -42,6 +42,13 @@ Rocks=[]
 #Player Data
 player = [Name, Position, Fuel, Civ, Rocks]
 
+file = str(input("Please enter the name of the txt file to import.\nPlease remember to type .txt after the file\nDISCLAIMER:In order for the grapics mode to function properly, \nplease import a maximum of ten planets\nelse, graphics will be automatically cancelled\nNow Please enter the filename: "))
+    ###needs validation to get the right file
+#setpythonplanet, 
+
+pythonplanet = int(input("Which Planet would you like to make to be the PythonPlanet?\n"))
+##needs validation wrt the amount of planets present
+
 Current.init() #note to self modify jack's init to put setpythonplanet to top level 
 print(planets)
 
@@ -60,4 +67,3 @@ i = int(input("Which Planet would you like to make to be the PythonPlanet?\n"))
 planets[i][3]=True  ##default value in data matrix is False so we set it to True
 '''
 
-#setpythonplanet

@@ -12,10 +12,8 @@ import time     ##only used for delays in flashing screen
 
 
 ##functional definitions
-def loadfile():
+def loadfile(file):
     '''loads the file to be read''' 
-    file = str(input("Please enter the name of the txt file to import.\nPlease remember to type .txt after the file\nDISCLAIMER:In order for the grapics mode to function properly, \nplease import a maximum of ten planets\nelse, graphics will be automatically cancelled\nNow Please enter the filename: "))
-    ###needs validation to get the right file
     fileRef = open(file,"r")
     stringlist=[]
     global planetcount
@@ -46,11 +44,9 @@ def loadfile():
             extraplanet.append(datalist[l])
             extraplanet.append(False)
             planets.append(extraplanet)
-def setPythonPlanet():
+def setPythonPlanet(pythonplanet):
     '''modifies the isPythonPlanet parameter to true, to be used at the beginning of game loop'''
-    i = int(input("Which Planet would you like to make to be the PythonPlanet?\n"))
-    ##needs validation wrt the amount of planets present
-    planets[i][1]=True  ##default value in data matrix is False so we set it to True
+    planets[pythonplanet][1]=True  ##default value in data matrix is False so we set it to True
 def isGraphic():
     '''asks user to confirm graphics'''
     graphics = input("Pleaes indicate if you would like to see graphics or not(y/n):")
@@ -223,8 +219,8 @@ def astronautinit():
     astronaut.pensize(10)
 def init():
     '''initiatizes everything'''
-    loadfile()
-    setPythonPlanet()
+    loadfile(file)
+    setPythonPlanet(pythonplanet)
     global isGraphic
     if planetcount > 10:
         isGraphic = False
