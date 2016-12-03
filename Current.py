@@ -4,6 +4,11 @@
 ##Daniel Lee
 ##Final Assignment - Planets, Aliens, and Explosions
 
+import turtle   ##reference link https://docs.python.org/3.5/library/turtle.html
+import random
+import time     ##only used for delays in flashing screen
+
+
 ##functional definitions
 def loadfile():
     '''loads the file to be read''' 
@@ -43,7 +48,7 @@ def setPythonPlanet():
     '''modifies the isPythonPlanet parameter to true, to be used at the beginning of game loop'''
     i = int(input("Which Planet would you like to make to be the PythonPlanet?\n"))
     ##needs validation wrt the amount of planets present
-    planets[i][3]=True  ##default value in data matrix is False so we set it to True
+    planets[i][1]=True  ##default value in data matrix is False so we set it to True
 def isGraphic():
     '''asks user to confirm graphics'''
     graphics = input("Pleaes indicate if you would like to see graphics or not(y/n):")
@@ -83,7 +88,8 @@ def drawquasirecursive_planet(t,planet):
     ##doesn't run if no graphics are open
     t.rt(random.randint(1,359))
     recursing = True
-    length = int(planet[0])
+    print(planet)
+    length = planet[0]
     while recursing == True:    ##dont use recursion and while loop together
         if length <= 0:
             recursing = False
@@ -175,9 +181,9 @@ def planetinit(planets):
     drawer.pensize(3)
     for i in range(len(planets)):
         drawer.pu()
-        drawer.setpos(planets[i][1][0],planets[i][1][1])
+        drawer.setpos(planets[i][2][0],planets[i][2][1])
         drawer.pd()
-        drawquasirecursive_planet(drawer,planets[i][2])
+        drawquasirecursive_planet(drawer,planets[i][3])
         home(drawer)
 def MildExplosion(boomplanet):
     '''takes in planets[...]'''
@@ -231,9 +237,6 @@ def init():
         defaulttitle()
         astronautinit()
         
-import turtle   ##reference link https://docs.python.org/3.5/library/turtle.html
-import random
-import time     ##only used for delays in flashing screen
 
 ##TOP LEVEL##
 
@@ -263,7 +266,6 @@ Rocks=[]
 player = [Name, Position, Fuel, Civ, Rocks]
 
 init()
-print(planets)
 
 while True: ##main game loop
     ##Update Game board
