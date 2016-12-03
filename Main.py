@@ -67,9 +67,11 @@ gfx.init(file, pythonplanet,presetplanet, planets,player, graphics)
 
 while True: ##main game loop
     ##Update Game board
-    destination=int(input("Which Planet would you like to go to? "))    ##Validate wrt # of planets
-    gfx.MildExplosion(planets[1])
-    gfx.AmazingExplosion(planets[1],planets)
+    destination=int(input("Which Planet would you like to go to? "))    ##Validate wrt # of planets #valid this with an if, if true do everything else, if false continue loop
+    
+    
+    gfx.MildExplosion(planets[1]) #only draws, need to spread rock specimens in calc
+    gfx.AmazingExplosion(planets[1],planets) #kills the planet graphically and irl or just irl
     gfx.travel(planets[destination][2],player) #works, after trying to travel to 10th planet that doesnt exist, dies
 
 if isGraphic: #keep in, needed to pause to be windoze friendly
