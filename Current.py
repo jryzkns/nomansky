@@ -214,7 +214,7 @@ def astronautinit():
     astronaut.speed(1)
     astronaut.color("#DCDCDC")
     astronaut.pensize(10)
-def init(planets):
+def init():
     '''initiatizes everything'''
     loadfile()
     setPythonPlanet()
@@ -259,7 +259,8 @@ Civ=input("Please indicate your civilization level(integer from 0 to 3): ") ##ne
 Rocks=[]
 player = [Name, Position, Fuel, Civ, Rocks]
 
-init(planets)
+init()
+print(planets)
 
 while True: ##main game loop
     ##Update Game board
