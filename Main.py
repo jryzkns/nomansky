@@ -2,10 +2,13 @@
 ##CMPT 120 D100; 16-3
 ##Jack 'Jryzkns' Zhou
 ##Brian Fu
-##Daniel Lee
 ##Final Assignment - Planets, Aliens, and Explosions
 
-import Current #from Current.py
+#Main loop
+
+#local imports
+import graphics as gfx
+import nongfx as ngfx
 
 #import
 import time
@@ -28,7 +31,8 @@ planet9 = [[],False,[230,-200],[25,3,5,270]]
 #Define main matrix
 presetplanet = [planet0,planet1,planet2,planet3,planet4,planet5,planet6,planet7,planet8,planet9]
 
-planets=[] #need mutable global list to manipulate in init
+planets=[] #need mutable global list to manipulate in init 
+#this is where the opened file data is stored, in syntax of the singular planets in a matrix
 
 print("Welcome to Planets, Aliens, and Explosions")
 
@@ -42,24 +46,33 @@ Rocks=[]
 #Player Data
 player = [Name, Position, Fuel, Civ, Rocks]
 
+#begin validation
+
 file = str(input("Please enter the name of the txt file to import.\nPlease remember to type .txt after the file\nDISCLAIMER:In order for the grapics mode to function properly, \nplease import a maximum of ten planets\nelse, graphics will be automatically cancelled\nNow Please enter the filename: "))
     ###needs validation to get the right file
-#setpythonplanet, 
+    #try raise except this, put all validation in a huge while loop
 
-pythonplanet = int(input("Which Planet would you like to make to be the PythonPlanet?\n"))
+pythonplanet = int(input("Which Planet would you like to make to be the PythonPlanet?"))
 ##needs validation wrt the amount of planets present
 
-Current.init(file, pythonplanet, presetplanet, planets,player) #note to self modify jack's init to put setpythonplanet to top level 
-print(planets)
+graphics = input("Pleaes indicate if you would like to see graphics or not(y/n):")
+##needs validation so it only takes "y","Y","n", or "N" (need to put .lower() in the validation loop to check)
+
+#end validation
+
+#initialize
+gfx.init(file, pythonplanet,presetplanet, planets,player, graphics)
+
+#print(planets) #debugging
 
 while True: ##main game loop
     ##Update Game board
     destination=int(input("Which Planet would you like to go to? "))    ##Validate wrt # of planets
-    Current.MildExplosion(planets[1])
-    Current.AmazingExplosion(planets[1],planets)
-    Current.travel(planets[destination][2],player)    
+    gfx.MildExplosion(planets[1])
+    gfx.AmazingExplosion(planets[1],planets)
+    gfx.travel(planets[destination][2],player) #works, after trying to travel to 10th planet that doesnt exist, dies
 
-if isGraphic:
+if isGraphic: #keep in, needed to pause to be windoze friendly
     turtle.mainloop()
 
 '''
