@@ -234,7 +234,7 @@ def init():
         defaulttitle()
         astronautinit()
         
-
+'''
 ##TOP LEVEL##
 
 print("Welcome to Planets, Aliens, and Explosions")
@@ -273,3 +273,4 @@ if isGraphic:
     
     ##commit
     ##kek
+'''
