@@ -1,12 +1,10 @@
+#!/usr/bin/python3
 ##CMPT 120 D100; 16-3
 ##Jack 'Jryzkns' Zhou
 ##Brian Fu
-##Daniel Lee
 ##Final Assignment - Planets, Aliens, and Explosions
 
 #graphics library
-
-##note to dr cukierman: Daniel has rage quitted from the group, we have not heard back from him yet. We entrusted all our material to him and he has not responded to us since, we just wanted you to know that this is happening in case something happens, we are also afraid that he might take our code for his own
 
 import turtle   ##reference link https://docs.python.org/3.5/library/turtle.html
 import random

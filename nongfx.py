@@ -1,4 +1,8 @@
 #!/usr/bin/python3
+##CMPT 120 D100; 16-3
+##Jack 'Jryzkns' Zhou
+##Brian Fu
+##Final Assignment - Planets, Aliens, and Explosions
 
 #Non-graphical functions
 
