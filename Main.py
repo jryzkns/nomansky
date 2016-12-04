@@ -31,7 +31,7 @@ planet7 = [[],False,[-200,-75],[30,10,4,120]]
 planet8 = [[],False,[150,200],[45,10,4,50]]
 planet9 = [[],False,[230,-200],[25,3,5,270]]
 
-#Define main matrix
+#Define preset matrix
 presetplanet = [planet0,planet1,planet2,planet3,planet4,planet5,planet6,planet7,planet8,planet9]
 
 planets=[] #need mutable global list to manipulate in init 
