@@ -19,7 +19,7 @@ import random
 import turtle
 
 #Define data
-##Planet data: calculations,position,visual,isPythonPlanet 
+##Planet data: calculations, isPythonPlanet, position, visual data
 planet0 = [[],False,[-220,200],[50,10,5,30]]
 planet1 = [[],False,[210,110],[55,10,3,60]]
 planet2 = [[],False,[0,-200],[60,15,4,90]]
@@ -39,6 +39,12 @@ planets=[] #need mutable global list to manipulate in init
 
 print("Welcome to Planets, Aliens, and Explosions")
 
+#begin validation
+
+file = str(input("Please enter the name of the txt file to import.\nPlease remember to type .txt after the file\nDISCLAIMER:In order for the grapics mode to function properly, \nplease import a maximum of ten planets\nelse, graphics will be automatically cancelled\nNow Please enter the filename: "))
+    ###needs validation to get the right file
+    #try raise except this
+
 #Astronaut Data:
 Name=input("What's your name? ")
 Position=[0] ##initiation placeholder for player
@@ -49,11 +55,7 @@ Rocks=[]
 #Player Data
 player = [Name, Position, Fuel, Civ, Rocks]
 
-#begin validation
-
-file = str(input("Please enter the name of the txt file to import.\nPlease remember to type .txt after the file\nDISCLAIMER:In order for the grapics mode to function properly, \nplease import a maximum of ten planets\nelse, graphics will be automatically cancelled\nNow Please enter the filename: "))
-    ###needs validation to get the right file
-    #try raise except this, put all validation in a huge while loop
+#put all validation in a huge while loop
 
 pythonplanet = int(input("Which Planet would you like to make to be the PythonPlanet?"))
 ##needs validation wrt the amount of planets present
@@ -64,7 +66,7 @@ graphics = input("Pleaes indicate if you would like to see graphics or not(y/n):
 #end validation
 
 #initialize
-gfx.init(file, pythonplanet,presetplanet, planets,player, graphics)
+gfx.init(file, pythonplanet, presetplanet, planets,player, graphics)
 
 #print(planets) #debugging
 
@@ -73,12 +75,15 @@ while True: ##main game loop
     destination=int(input("Which Planet would you like to go to? "))    ##Validate wrt # of planets #valid this with an if, if true do everything else, if false continue loop
     
     #the main 3 to run
-    gfx.MildExplosion(planets[1]) #only draws, need to spread rock specimens in calc
-    gfx.AmazingExplosion(planets[1],planets) #kills the planet graphically and irl or just irl
+    gfx.MildExplosion(planets[destination]) #only draws, need to spread rock specimens in calc
+    #gfx.AmazingExplosion(planets[1],planets) #kills the planet graphically and irl or just irl
     gfx.travel(planets[destination][2],player) #works, after trying to travel to 10th planet that doesnt exist, dies
 
 if isGraphic: #keep in, needed to pause to be windoze friendly
     turtle.mainloop()
+
+
+#at the end of the main, put a gfx.turtle.reset() after a y/n do you want to keep playing and if isGraphic gate, else do turtle.mainloop() and turtle.exitonclick() with a ty msg (only ty msg if not gfx), as well as kill the loop
 
 '''
 #modifies the isPythonPlanet parameter to true, to be used at the beginning of game loop
