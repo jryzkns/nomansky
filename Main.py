@@ -19,6 +19,7 @@ import time
 import random
 import turtle
 
+#Main matrix
 planets=[] #need mutable global list to manipulate in init 
 #this is where the opened file data will be stored, in syntax of the singular planets in a matrix
 
@@ -58,6 +59,8 @@ while True:
         print()
             
         max_turns = int(input("What's the maximum number of turns?: "))
+        if max_turns < 0:
+            raise ValueError
         print()
         
         explosions = input("Would you like explosions? (Y/N): ")
@@ -76,6 +79,8 @@ while True:
         Position= 0  ##player starts at position 0
         
         Fuel=int(input("How much fuel will you start with?: "))
+        if Fuel < 0:
+            raise ValueError
         print()
         
         Civ=int(input("Please indicate your civilization level (0 to 3 including): "))
@@ -115,14 +120,21 @@ if not gfx.isGraphic:
     ngfx.init(planets)
 #ngfx.ar_init(planets,gfx.isGraphic)
 
-print(planets) #debugging
+#print(planets) #debugging
 
 #Level 2 (Main game loop)
 
-while True: ##main game loop
+dead = False
+win = False
+
+while not dead and not win: ##main game loop
     ##Update Game board
     
-    #Level 2.5 (Movement)
+    #Step 1 (Check explosions)
+    if explosions == True:
+        pass
+    
+    #Step 2(Movement)
     choose_dest = input("Would you like to roll dice, or choose your destination? (C/D): ")
     if choose_dest.lower() == 'c':
         choose_dest = True
@@ -138,15 +150,37 @@ while True: ##main game loop
         except ValueError and IndexError:
             print("That's not a valid planet to go to!")
     elif not choose_dest:
-        roll = DiceRoll(6)
+        roll = ngfx.DiceRoll(6)
         input("You rolled a", roll,"!")
-        
         if gfx.isGraphic:
             destination = ngfx.a_c_l(planets,find_pos(planets, player[1]),roll) #advance_circularly_list, workaround for jack's code
         elif not gfx.isGraphic:
             destination = ngfx.a_c_l(planets, player[2], roll)
-            
-        gfx.travel(planets[destination][2],player)    
+        gfx.travel(planets[destination][2],player)
+    
+    #Step 3 (Aliens)
+    #Empty list is False!
+    if player[3] < planets[destination][0][0]: #if player is less civ than aliens
+        player[2] -= random.randrange(1,player[2]+1) #lose fuel
+        
+    elif player[3] > planets[destination][0][0] and planets[destination][0][1] >= 0: #don't subtract or give fuel if no fuel left on planet, if player is more civ than aliens
+        fuel_loss = random.randrange(1,planets[destination][0][1]+1)
+        planets[destination][0][1] -= fuel_loss
+        player[2] += fuel_loss
+        
+    elif player[3] == planets[destination][0][0]: #if player same civ as aliens
+        player_fuel_loss = random.randrange(1, int(player[2]/2)+1)
+        player[2] -= player_fuel_loss
+    
+    if player[2] > 0: #premature death check (fuel only, planet is confirmed alive)
+        rock_loss = random.randrange(1,int(planets[destination][0][2]/3))
+        planets[destination][0][2] -= rock_loss
+        player[4].append(i)
+        
+    #Step 3.5 (isPythonPlanet check)
+    if planets[destination][1]:
+        win = True
+    
         
     #the main 3 to run
     gfx.MildExplosion(planets[destination]) #only draws, need to spread rock specimens in calc
