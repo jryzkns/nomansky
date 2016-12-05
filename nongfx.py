@@ -53,7 +53,13 @@ def explosion_rock_calc(exploding_planet):
             print(planets)
             
 planets = [10,20,30]
-explosion_rock_calc(2)
+#explosion_rock_calc(2
+
+def calc_str_to_int(planets): #Turn the planet calc data inside the processed matricies from strs to ints
+    for i in range(len(planets)):
+        for k in range(len(planets[i][0])): #3 pieces by default
+            planets[i][0][k] = int(planets[i][0][k])
+    #void, relies on global vars
 
 '''
 def ar_init(planets, graphics): #aliens and rocks appender to main planets matrix

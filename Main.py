@@ -121,6 +121,7 @@ if not gfx.isGraphic:
 
 ##print(planets) #debugging
 #Turn the planet calcs into ints!
+ngfx.calc_str_to_int(planets)
 
 
 #Level 2 (Main game loop)
@@ -177,41 +178,50 @@ while not dead and not win: ##main game loop
         print("You rolled a", roll,"!")
         input() #To allow user to respond
         if gfx.isGraphic:
-            destination = ngfx.a_c_l(planets,find_pos(planets, player[1]),roll) #advance_circularly_list, workaround for jack's code
+            destination = ngfx.a_c_l(planets,ngfx.find_pos(planets, player[1]),roll) #advance_circularly_list, workaround for jack's code
         elif not gfx.isGraphic:
             destination = ngfx.a_c_l(planets, player[2], roll)
         gfx.travel(planets[destination][2],player)
     
     #Step 3 (Aliens)
-    #Empty list is False!
+    #Empty range is False!
     if player[3] < planets[destination][0][0]: #if player is less civ than aliens
-        player[2] -= random.randrange(1,player[2]+1) #lose fuel
+        player[2] -= random.randrange(1,player[2]+1) #lose fuel, relies on having fuel death check before looping again
         
     elif player[3] > planets[destination][0][0] and planets[destination][0][1] >= 0: #don't subtract or give fuel if no fuel left on planet, if player is more civ than aliens
-        fuel_loss = random.randrange(1,planets[destination][0][1]+1)
+        try:
+            fuel_loss = random.randrange(1,planets[destination][0][1]+1)
+        except ValueError:
+            fuel_loss = 0 #For case of no fuel left on planet
         planets[destination][0][1] -= fuel_loss
         player[2] += fuel_loss
         
     elif player[3] == planets[destination][0][0]: #if player same civ as aliens
-        player_fuel_loss = random.randrange(1, int(player[2]/2)+1)
+        try:
+            player_fuel_loss = random.randrange(1, int(player[2]/2)+1)
+        except ValueError:
+            player_fuel_loss = random.getrandbits(1) #For 1 fuel base case (int(0.5) => 0)
         player[2] -= player_fuel_loss
     
     if player[2] > 0: #premature death check (fuel only, planet is confirmed alive)
-        rock_loss = random.randrange(1,int(planets[destination][0][2]/3))
+        rock_loss = planets[destination][0][2]//3 #If planet left with 1-2 rocks, will never get (but intentional)
         planets[destination][0][2] -= rock_loss
-        player[4].append(i)
+        player[4].append(rock_loss)
         
-    #Step 3.5 (isPythonPlanet check)
+    #Step 3.5 (After aliens gamestate check), if he isPythonPlanet he wins regardless of stranded or not
     if planets[destination][1]:
+        print("Congratualations! You have reached PythonPlanet! You win!")
         win = True
-    
+    elif player[2] <= 0:
+        print("Oh no! You're out of fuel! You become stranded. You lose!")
+        dead = True
     '''
     #the main 3 to run
     gfx.MildExplosion(planets[destination]) #only draws, need to spread rock specimens in calc
     #gfx.AmazingExplosion(planets[1],planets) #kills the planet graphically and irl or just irl
     '''
 
-if isGraphic: #keep in, needed to pause to be windoze friendly
+if gfx.isGraphic: #keep in, needed to pause to be windoze friendly
     turtle.mainloop()
 
 
