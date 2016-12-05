@@ -131,8 +131,25 @@ while not dead and not win: ##main game loop
     ##Update Game board
     
     #Step 1 (Check explosions)
-    if explosions == True:
-        pass
+    if explosions:
+        exploding_planet = random.randrange(1,(len(planets)*5)+1)
+        if exploding_planet in range (len(planets)): #Don't do the calculations if exploding_planet isn't on board!
+            
+            #Check for whether amazing or mild explosion
+            if bool(random.getrandbits(1)):
+                amazing = True
+                mild = False
+            else:
+                amazing = False
+                mild = True
+            #amazing also has mild calculations, keep mild as default
+                
+            if amazing:
+                
+            
+            
+            pass
+        
     
     #Step 2(Movement)
     choose_dest = input("Would you like to roll dice, or choose your destination? (C/D): ")
@@ -181,11 +198,11 @@ while not dead and not win: ##main game loop
     if planets[destination][1]:
         win = True
     
-        
+    '''
     #the main 3 to run
     gfx.MildExplosion(planets[destination]) #only draws, need to spread rock specimens in calc
     #gfx.AmazingExplosion(planets[1],planets) #kills the planet graphically and irl or just irl
-    
+    '''
 
 if isGraphic: #keep in, needed to pause to be windoze friendly
     turtle.mainloop()
