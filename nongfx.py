@@ -45,6 +45,12 @@ def find_pos(matrix, find_value): #workaround for jack's code
             if k == find_value:
                 return i
 
+def explosion_rock_calc(exploding_planet):
+    for i in range(exploding_planet-1,-1,-1):   
+        #planets[i][0][2]
+        for k in range(exploding_planet):
+            planets[k][0][2] += planets[i][0][2]
+
 '''
 def ar_init(planets, graphics): #aliens and rocks appender to main planets matrix
     #print(graphics)

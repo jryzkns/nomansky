@@ -118,9 +118,8 @@ while True:
 #run to convert matrix if not gfx
 if not gfx.isGraphic:
     ngfx.init(planets)
-#ngfx.ar_init(planets,gfx.isGraphic)
 
-#print(planets) #debugging
+##print(planets) #debugging
 
 #Level 2 (Main game loop)
 
@@ -143,12 +142,17 @@ while not dead and not win: ##main game loop
                 amazing = False
                 mild = True
             #amazing also has mild calculations, keep mild as default
-                
+            gfx.MildExplosion(planets[exploding_planet])
+            '''
+            for i in range(exploding_planet-1,-1,-1):
+                #planets[i][0][2]
+                for k in range(exploding_planet):
+                    planets[k][0][2] += planets[i][0][2]
+            '''
             if amazing:
+                gfx.AmazingExplosion(planets[exploding_planet], planets)
                 
             
-            
-            pass
         
     
     #Step 2(Movement)
