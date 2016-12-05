@@ -132,6 +132,9 @@ win = False
 while not dead and not win: ##main game loop
     ##Update Game board
     
+    #Step 0 (Update gameboard for player)
+    
+    
     #Step 1 (Check explosions)
     if explosions:
         exploding_planet = random.randrange(1,(len(planets)*5)+1)
@@ -180,7 +183,7 @@ while not dead and not win: ##main game loop
         if gfx.isGraphic:
             destination = ngfx.a_c_l(planets,ngfx.find_pos(planets, player[1]),roll) #advance_circularly_list, workaround for jack's code
         elif not gfx.isGraphic:
-            destination = ngfx.a_c_l(planets, player[2], roll)
+            destination = ngfx.a_c_l(planets, player[1], roll)
         gfx.travel(planets[destination][2],player)
     
     #Step 3 (Aliens)
