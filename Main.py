@@ -25,21 +25,21 @@ planets=[] #need mutable global list to manipulate in init
 #Level 0.5 (define gfx data)
 
 #Define gfx planet data
-##Planet data if gfx: calculations, isPythonPlanet, coordinate position, visual data
+##Planet data if gfx: calculations, isPythonPlanet, coordinate position, visual data, range position
 ##Planet Data if not gfx: calcs, isPythonPlanet, range position
 ##calculations are done as [civ lvl, fuel on planet, rocks on planet]
 ##if civ lvl = 0 then no aliens
-##this would be so much easier with objects but group got confused
-planet0 = [[],False,[-220,200],[50,10,5,30]]
-planet1 = [[],False,[210,110],[55,10,3,60]]
-planet2 = [[],False,[0,-200],[60,15,4,90]]
-planet3 = [[],False,[-220,-200],[35,5,6,45]]
-planet4 = [[],False,[150,-100],[40,10,8,0]]
-planet5 = [[],False,[0,-50],[25,4,10,180]]
-planet6 = [[],False,[10,100],[30,5,3,80]]
-planet7 = [[],False,[-200,-75],[30,10,4,120]]
-planet8 = [[],False,[150,200],[45,10,4,50]]
-planet9 = [[],False,[230,-200],[25,3,5,270]]
+##this would be so much easier with objects
+planet0 = [[],False,[-220,200],[50,10,5,30],0]
+planet1 = [[],False,[210,110],[55,10,3,60],1]
+planet2 = [[],False,[0,-200],[60,15,4,90],2]
+planet3 = [[],False,[-220,-200],[35,5,6,45],3]
+planet4 = [[],False,[150,-100],[40,10,8,0],4]
+planet5 = [[],False,[0,-50],[25,4,10,180],5]
+planet6 = [[],False,[10,100],[30,5,3,80],6]
+planet7 = [[],False,[-200,-75],[30,10,4,120],7]
+planet8 = [[],False,[150,200],[45,10,4,50],8]
+planet9 = [[],False,[230,-200],[25,3,5,270],9]
 
 #Define preset gfx matrix
 presetplanet = [planet0,planet1,planet2,planet3,planet4,planet5,planet6,planet7,planet8,planet9]
@@ -121,12 +121,37 @@ print(planets) #debugging
 
 while True: ##main game loop
     ##Update Game board
-    destination=int(input("Which Planet would you like to go to? "))   # OR can be roll dice instead of input, stop with blank input with newline, put a counter to stop after so many turns ##Validate wrt # of planets #valid this with an if, if true do everything else, if false continue loop
     
+    #Level 2.5 (Movement)
+    choose_dest = input("Would you like to roll dice, or choose your destination? (C/D): ")
+    if choose_dest.lower() == 'c':
+        choose_dest = True
+    elif choose_dest.lower() == 'd':
+        choose_dest = False
+    else:
+        print("Hey! That's not a valid choice!")
+    
+    if choose_dest:
+        try:
+            destination=int(input("Which Planet would you like to go to?: "))   # OR can be roll dice instead of input, stop with blank input with newline, put a counter to stop after so many turns ##Validate wrt # of planets #valid this with an if, if true do everything else, if false continue loop
+            gfx.travel(planets[destination][2],player) #works, after trying to travel to 10th planet that doesnt exist, dies
+        except ValueError and IndexError:
+            print("That's not a valid planet to go to!")
+    elif not choose_dest:
+        roll = DiceRoll(6)
+        input("You rolled a", roll,"!")
+        
+        if gfx.isGraphic:
+            destination = ngfx.a_c_l(planets,find_pos(planets, player[1]),roll) #advance_circularly_list, workaround for jack's code
+        elif not gfx.isGraphic:
+            destination = ngfx.a_c_l(planets, player[2], roll)
+            
+        gfx.travel(planets[destination][2],player)    
+        
     #the main 3 to run
     gfx.MildExplosion(planets[destination]) #only draws, need to spread rock specimens in calc
     #gfx.AmazingExplosion(planets[1],planets) #kills the planet graphically and irl or just irl
-    gfx.travel(planets[destination][2],player) #works, after trying to travel to 10th planet that doesnt exist, dies
+    
 
 if isGraphic: #keep in, needed to pause to be windoze friendly
     turtle.mainloop()
