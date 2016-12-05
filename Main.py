@@ -7,7 +7,7 @@
 #Main loop
 
 #local imports
-import graphics as gfx #important ones are AmazingExplosion, MildExplosion, and travel
+import graphics as gfx #important ones are AmazingExplosion, MildExplosion, and travel (these work regardless of gfx!)
 #AE destroys planet as well and does gfx, ME is only gfx, and travel assigns a coord. as well as does gfx
 import nongfx as ngfx #important is DiceRoll
 #DE rolls 6 sided die
@@ -19,7 +19,7 @@ import random
 import turtle
 
 #Define data
-##Planet data: calculations, isPythonPlanet, position, visual data
+##Planet data: calculations, isPythonPlanet, position coordinate, visual data, 
 planet0 = [[],False,[-220,200],[50,10,5,30]]
 planet1 = [[],False,[210,110],[55,10,3,60]]
 planet2 = [[],False,[0,-200],[60,15,4,90]]
@@ -31,7 +31,7 @@ planet7 = [[],False,[-200,-75],[30,10,4,120]]
 planet8 = [[],False,[150,200],[45,10,4,50]]
 planet9 = [[],False,[230,-200],[25,3,5,270]]
 
-#Define preset matrix
+#Define preset gfx matrix
 presetplanet = [planet0,planet1,planet2,planet3,planet4,planet5,planet6,planet7,planet8,planet9]
 
 planets=[] #need mutable global list to manipulate in init 
@@ -66,9 +66,12 @@ graphics = input("Pleaes indicate if you would like to see graphics or not(y/n):
 #end validation
 
 #initialize
-gfx.init(file, pythonplanet, presetplanet, planets,player, graphics)
+gfx.init(file, pythonplanet, presetplanet, planets, player, graphics)
+if not gfx.isGraphic:
+    ngfx.init(planets)
+#init loads the file regardless of gfx
 
-#print(planets) #debugging
+print(planets) #debugging
 
 while True: ##main game loop
     ##Update Game board
