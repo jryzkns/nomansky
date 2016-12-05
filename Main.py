@@ -120,6 +120,8 @@ if not gfx.isGraphic:
     ngfx.init(planets)
 
 ##print(planets) #debugging
+#Turn the planet calcs into ints!
+
 
 #Level 2 (Main game loop)
 
@@ -172,7 +174,8 @@ while not dead and not win: ##main game loop
             print("That's not a valid planet to go to!")
     elif not choose_dest:
         roll = ngfx.DiceRoll(6)
-        input("You rolled a", roll,"!")
+        print("You rolled a", roll,"!")
+        input() #To allow user to respond
         if gfx.isGraphic:
             destination = ngfx.a_c_l(planets,find_pos(planets, player[1]),roll) #advance_circularly_list, workaround for jack's code
         elif not gfx.isGraphic:
