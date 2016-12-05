@@ -48,10 +48,12 @@ def setPythonPlanet(pythonplanet,planets):
     planets[pythonplanet][1]=True  ##default value in data matrix is False so we set it to True
 def isGraphic(graphics):
     '''asks user to confirm graphics'''
-    if graphics == "y":
+    if graphics.lower() == "y":
         return True
-    elif graphics == "n":
+    elif graphics.lower() == "n":
         return False
+    else:
+        raise IndexError
 def randomstar(t):
     '''draws a star with varied orientation and varied size'''
     ##doesn't run if no graphics are open

@@ -6,6 +6,9 @@
 
 #Non-graphical functions
 
+#Have to import due to separate file
+import random 
+
 def DiceRoll(num): #takes an int as the upper bound
     '''rolls a dice, nuff said'''
     return(random.randint(1,num))
@@ -14,8 +17,14 @@ def init(planets): #run after the gfx.init (through an if gate), converts the re
     for i in range (10):
         for k in range(2):
             planets[i].pop()
-    print(len(planets))
+    #print(len(planets))
     for i in range (0,len(planets)):
         planets[i].append(i)
+        
+def ar_init(planets, graphics): #aliens and rocks appender to main planets matrix
+    #print(graphics)
+    a_it = [] 
+    for i in range(len(planets)):    
+        bool(random.getrandbits(1))
         
     

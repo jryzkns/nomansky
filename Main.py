@@ -6,20 +6,30 @@
 
 #Main loop
 
+#Level 0 (imports and base/global definitions)
+
 #local imports
 import graphics as gfx #important ones are AmazingExplosion, MildExplosion, and travel (these work regardless of gfx!)
 #AE destroys planet as well and does gfx, ME is only gfx, and travel assigns a coord. as well as does gfx
-import nongfx as ngfx #important is DiceRoll
-#DE rolls 6 sided die
-
+import nongfx as ngfx #important is DiceRoll(num)
+#DE rolls a num sided die
 
 #import
 import time
 import random
 import turtle
 
-#Define data
-##Planet data: calculations, isPythonPlanet, position coordinate, visual data, 
+planets=[] #need mutable global list to manipulate in init 
+#this is where the opened file data will be stored, in syntax of the singular planets in a matrix
+
+#Level 0.5 (define gfx data)
+
+#Define gfx planet data
+##Planet data if gfx: calculations, isPythonPlanet, coordinate position, visual data
+##Planet Data if not gfx: calcs, isPythonPlanet, range position
+##calculations are done as [civ lvl, fuel on planet, rocks on planet]
+##if civ lvl = 0 then no aliens
+##this would be so much easier with objects but group got confused
 planet0 = [[],False,[-220,200],[50,10,5,30]]
 planet1 = [[],False,[210,110],[55,10,3,60]]
 planet2 = [[],False,[0,-200],[60,15,4,90]]
@@ -34,48 +44,84 @@ planet9 = [[],False,[230,-200],[25,3,5,270]]
 #Define preset gfx matrix
 presetplanet = [planet0,planet1,planet2,planet3,planet4,planet5,planet6,planet7,planet8,planet9]
 
-planets=[] #need mutable global list to manipulate in init 
-#this is where the opened file data is stored, in syntax of the singular planets in a matrix
-
-print("Welcome to Planets, Aliens, and Explosions")
+#Level 1 (inputs and validation)
 
 #begin validation
-
-file = str(input("Please enter the name of the txt file to import.\nPlease remember to type .txt after the file\nDISCLAIMER:In order for the grapics mode to function properly, \nplease import a maximum of ten planets\nelse, graphics will be automatically cancelled\nNow Please enter the filename: "))
-    ###needs validation to get the right file
-    #try raise except this
-
-#Astronaut Data:
-Name=input("What's your name? ")
-Position=[0] ##initiation placeholder for player
-Fuel=input("how much fuel will you start with? ")   ##needs validation?
-Civ=input("Please indicate your civilization level(integer from 0 to 3): ") ##needs validation to be in the interval [0,3]
-Rocks=[]
-
-#Player Data
-player = [Name, Position, Fuel, Civ, Rocks]
-
-#put all validation in a huge while loop
-
-pythonplanet = int(input("Which Planet would you like to make to be the PythonPlanet?"))
-##needs validation wrt the amount of planets present
-
-graphics = input("Pleaes indicate if you would like to see graphics or not(y/n):")
-##needs validation so it only takes "y","Y","n", or "N" (need to put .lower() in the validation loop to check)
+while True:
+    try:        
+        print("Welcome to Planets, Aliens, and Explosions")
+        print()
+        
+        file = str(input("DISCLAIMER: Graphics will only be enabled for [0,10] planets\nPlease enter the full name of the UTF-8 file to import: "))
+        ###needs validation to get the right file
+        #try raise except this
+        print()
+            
+        max_turns = int(input("What's the maximum number of turns?: "))
+        print()
+        
+        explosions = input("Would you like explosions? (Y/N): ")
+        if explosions.lower() == 'y':
+            explosions = True
+        elif explosions.lower() == 'n':
+            explosions = False
+        else:
+            raise ValueError
+        print()
+        
+        #Player Data:
+        Name=str(input("What's your name?: "))
+        print()
+        
+        Position= 0  ##player starts at position 0
+        
+        Fuel=int(input("How much fuel will you start with?: "))
+        print()
+        
+        Civ=int(input("Please indicate your civilization level (0 to 3 including): "))
+        if Civ not in range (0,4): #interval [0,3]
+            raise ValueError
+        ##needs validation to be in the interval [0,3]
+        print()
+        
+        Rocks=[]
+        
+        #Init player data, in validation loop due to init
+        player = [Name, Position, Fuel, Civ, Rocks]        
+        
+        pythonplanet = int(input("Which Planet would you like to make to be the PythonPlanet?\nPlease enter a planet that exists in your import file: "))
+        #will raise IndexError if invalid
+        print()
+        
+        graphics = input("Please indicate if you would like to see graphics or not (Y/N): ")
+        #IndexError is raised in the resulting function
+        print()
+        
+        try:
+            #initialize
+            gfx.init(file, pythonplanet, presetplanet, planets, player, graphics) #gfx.init loads the file regardless of gfx
+            #try raise except this
+        except IndexError and FileNotFoundError:
+            raise ValueError        
+        break
+    except ValueError:
+        print("Hey! Some of those value(s) were incorrect, please enter them again!")
+        print()
 
 #end validation
 
-#initialize
-gfx.init(file, pythonplanet, presetplanet, planets, player, graphics)
+#run to convert matrix if not gfx
 if not gfx.isGraphic:
     ngfx.init(planets)
-#init loads the file regardless of gfx
+#ngfx.ar_init(planets,gfx.isGraphic)
 
 print(planets) #debugging
 
+#Level 2 (Main game loop)
+
 while True: ##main game loop
     ##Update Game board
-    destination=int(input("Which Planet would you like to go to? "))    ##Validate wrt # of planets #valid this with an if, if true do everything else, if false continue loop
+    destination=int(input("Which Planet would you like to go to? "))   # OR can be roll dice instead of input, stop with blank input with newline, put a counter to stop after so many turns ##Validate wrt # of planets #valid this with an if, if true do everything else, if false continue loop
     
     #the main 3 to run
     gfx.MildExplosion(planets[destination]) #only draws, need to spread rock specimens in calc
