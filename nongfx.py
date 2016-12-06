@@ -71,7 +71,22 @@ def explosion_rock_calc(exploding_planet, planets):
     for i in range(len(modded_rocklst)):
         planets[i][0][2] = modded_rocklst[i]
     #void    
-    
+
+def endgame_response(dead, win, max_turns, playing):
+    if win:
+        print("The game is over. You have won!")
+    elif dead:
+        print("The game is over. You have lost.")
+    elif not max_turns: #elif max_turns count reaches 0
+        print("Oh no! You have run out of turns!")
+        print("You were too slow in your quest. You have lost.")
+    while True:
+        keep_playing = input("Play Again? (Y/N): ")
+        if keep_playing.lower == 'y':
+            return True
+        elif keep_playing.lower == 'n':
+            return False
+            
 '''
 def ar_init(planets, graphics): #aliens and rocks appender to main planets matrix
     #print(graphics)

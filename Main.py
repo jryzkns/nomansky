@@ -23,6 +23,9 @@ import turtle
 planets=[] #need mutable global list to manipulate in init 
 #this is where the opened file data will be stored, in syntax of the singular planets in a matrix
 
+#Reloop check
+playing = True
+
 #Level 0.5 (define gfx data)
 
 #Define gfx planet data
@@ -45,184 +48,191 @@ planet9 = [[],False,[230,-200],[25,3,5,270],9]
 #Define preset gfx matrix
 presetplanet = [planet0,planet1,planet2,planet3,planet4,planet5,planet6,planet7,planet8,planet9]
 
-#Level 1 (inputs and validation)
+while playing:
 
-#begin validation
-while True:
-    try:        
-        print("Welcome to Planets, Aliens, and Explosions")
-        print()
-        
-        file = str(input("DISCLAIMER: Graphics will only be enabled for [0,10] planets\nPlease enter the full name of the UTF-8 file to import: "))
-        ###needs validation to get the right file
-        #try raise except this
-        print()
+    #Level 1 (inputs and validation)
+    
+    #begin validation
+    while True:
+        try:        
+            print("Welcome to Planets, Aliens, and Explosions")
+            print()
             
-        max_turns = int(input("What's the maximum number of turns?: "))
-        if max_turns < 0:
-            raise ValueError
-        print()
-        
-        explosions = input("Would you like explosions? (Y/N): ")
-        if explosions.lower() == 'y':
-            explosions = True
-        elif explosions.lower() == 'n':
-            explosions = False
-        else:
-            raise ValueError
-        print()
-        
-        #Player Data:
-        Name=str(input("What's your name?: "))
-        print()
-        
-        Position= 0  ##player starts at position 0
-        
-        Fuel=int(input("How much fuel will you start with?: "))
-        if Fuel < 0:
-            raise ValueError
-        print()
-        
-        Civ=int(input("Please indicate your civilization level (0 to 3 including): "))
-        if Civ not in range (0,4): #interval [0,3]
-            raise ValueError
-        ##needs validation to be in the interval [0,3]
-        print()
-        
-        Rocks=[]
-        
-        #Init player data, in validation loop due to init
-        player = [Name, Position, Fuel, Civ, Rocks]        
-        
-        pythonplanet = int(input("Which Planet would you like to make to be the PythonPlanet?\nPlease enter a planet that exists in your import file: "))
-        #will raise IndexError if invalid
-        print()
-        
-        graphics = input("Please indicate if you would like to see graphics or not (Y/N): ")
-        #IndexError is raised in the resulting function
-        print()
-        
-        try:
-            #initialize
-            gfx.init(file, pythonplanet, presetplanet, planets, player, graphics) #gfx.init loads the file regardless of gfx
+            file = str(input("DISCLAIMER: Graphics will only be enabled for [0,10] planets\nPlease enter the full name of the UTF-8 file to import: "))
+            ###needs validation to get the right file
             #try raise except this
-        except IndexError and FileNotFoundError:
-            raise ValueError
-        
-        break
-    except ValueError:
-        print("Hey! Some of those value(s) were incorrect, please enter them again!")
-        print()
-
-#end validation
-
-#run to convert matrix if not gfx
-if not gfx.isGraphic:
-    ngfx.init(planets)
-
-##print(planets) #debugging
-#Turn the planet calcs into ints!
-ngfx.calc_str_to_int(planets)
-
-
-#Level 2 (Main game loop)
-
-dead = False
-win = False
-
-while not dead and not win and max_turns: ##main game loop #Implicit boolean in max_turns, times out at 0
-    ##Update Game board
-    
-    #Step 0 (Update gameboard for player)
-    
-    
-    #Step 1 (Check explosions)
-    if explosions:
-        exploding_planet = random.randrange(1,(len(planets)*5)+1)
-        if exploding_planet in range (len(planets)): #Don't do the calculations if exploding_planet isn't on board!
-            #Check for whether amazing or mild explosion
-            if bool(random.getrandbits(1)):
-                amazing = True
-                mild = False
+            print()
+                
+            max_turns = int(input("What's the maximum number of turns?: "))
+            if max_turns < 0:
+                raise ValueError
+            print()
+            
+            explosions = input("Would you like explosions? (Y/N): ")
+            if explosions.lower() == 'y':
+                explosions = True
+            elif explosions.lower() == 'n':
+                explosions = False
             else:
-                amazing = False
-                mild = True
-            #amazing also has mild calculations, keep mild as default
-            gfx.MildExplosion(planets[exploding_planet])
-            ngfx.explosion_rock_calc(exploding_planet, planets)
-            if amazing: #amazing calcs
-                gfx.AmazingExplosion(planets[exploding_planet], planets) #First wipe, then check, lastly set dead
-                killed = False #death iterator, don't want to kill loop before gfx finish
-                if gfx.isGraphic:
-                    if exploding_planet == find_pos(planets, player[1]):
-                        killed = True
+                raise ValueError
+            print()
+            
+            #Player Data:
+            Name=str(input("What's your name?: "))
+            print()
+            
+            Position= 0  ##player starts at position 0
+            
+            Fuel=int(input("How much fuel will you start with?: "))
+            if Fuel < 0:
+                raise ValueError
+            print()
+            
+            Civ=int(input("Please indicate your civilization level (0 to 3 including): "))
+            if Civ not in range (0,4): #interval [0,3]
+                raise ValueError
+            ##needs validation to be in the interval [0,3]
+            print()
+            
+            Rocks=[]
+            
+            #Init player data, in validation loop due to init
+            player = [Name, Position, Fuel, Civ, Rocks]        
+            
+            pythonplanet = int(input("Which Planet would you like to make to be the PythonPlanet?\nPlease enter a planet that exists in your import file: "))
+            #will raise IndexError if invalid
+            print()
+            
+            graphics = input("Please indicate if you would like to see graphics or not (Y/N): ")
+            #IndexError is raised in the resulting function
+            print()
+            
+            try:
+                #initialize
+                gfx.init(file, pythonplanet, presetplanet, planets, player, graphics) #gfx.init loads the file regardless of gfx
+                #try raise except this
+            except IndexError and FileNotFoundError:
+                raise ValueError
+            
+            break
+        except ValueError:
+            print("Hey! Some of those value(s) were incorrect, please enter them again!")
+            print()
+    
+    #end validation
+    
+    #run to convert matrix if not gfx
+    if not gfx.isGraphic:
+        ngfx.init(planets)
+    
+    ##print(planets) #debugging
+    #Turn the planet calcs into ints!
+    ngfx.calc_str_to_int(planets)
+    
+    
+    #Level 2 (Main game loop)
+    
+    dead = False
+    win = False
+    
+    while not dead and not win and max_turns: ##main game loop #Implicit boolean in max_turns, times out at 0
+        ##Update Game board
+        
+        #Step 0 (Update gameboard for player)
+        
+        
+        #Step 1 (Check explosions)
+        if explosions:
+            exploding_planet = random.randrange(1,(len(planets)*5)+1)
+            if exploding_planet in range (len(planets)): #Don't do the calculations if exploding_planet isn't on board!
+                #Check for whether amazing or mild explosion
+                if bool(random.getrandbits(1)):
+                    amazing = True
+                    mild = False
                 else:
-                    if exploding_planet == player[1]:
-                        killed = True #Doesn't matter if list value is out of range as long as it's not ref'd again, no need to set for edge case (no more planets)
-                #Actual gamestate check
-                if killed:
-                    print("Oh no! The planet you were on exploded! You die a fiery death.")
-                    dead = True
-    
-    #Step 2(Movement)
-    choose_dest = input("Would you like to roll dice, or choose your destination? (C/D): ")
-    if choose_dest.lower() == 'c':
-        choose_dest = True
-    elif choose_dest.lower() == 'd':
-        choose_dest = False
-    else:
-        print("Hey! That's not a valid choice!")
-    ##Actual movement calculations
-    if choose_dest:
-        try:
-            destination=int(input("Which Planet would you like to go to?: "))   # OR can be roll dice instead of input, stop with blank input with newline, put a counter to stop after so many turns ##Validate wrt # of planets #valid this with an if, if true do everything else, if false continue loop
-            gfx.travel(planets[destination][2],player) #works, after trying to travel to 10th planet that doesnt exist, dies
-        except ValueError and IndexError:
-            print("That's not a valid planet to go to!")
-    elif not choose_dest:
-        roll = ngfx.DiceRoll(6)
-        print("You rolled a", roll,"!")
-        input() #To allow user to respond
-        if gfx.isGraphic:
-            destination = ngfx.a_c_l(planets,ngfx.find_pos(planets, player[1]),roll) #advance_circularly_list, workaround for jack's code
-        elif not gfx.isGraphic:
-            destination = ngfx.a_c_l(planets, player[1], roll)
-        gfx.travel(planets[destination][2],player)
-    
-    #Step 3 (Aliens)
-    #Empty range is False!
-    if player[3] < planets[destination][0][0]: #if player is less civ than aliens
-        player[2] -= random.randrange(1,player[2]+1) #lose fuel, relies on having fuel death check before looping again
+                    amazing = False
+                    mild = True
+                #amazing also has mild calculations, keep mild as default
+                gfx.MildExplosion(planets[exploding_planet])
+                ngfx.explosion_rock_calc(exploding_planet, planets)
+                if amazing: #amazing calcs
+                    gfx.AmazingExplosion(planets[exploding_planet], planets) #First wipe, then check, lastly set dead
+                    killed = False #death iterator, don't want to kill loop before gfx finish
+                    if gfx.isGraphic:
+                        if exploding_planet == find_pos(planets, player[1]):
+                            killed = True
+                    else:
+                        if exploding_planet == player[1]:
+                            killed = True #Doesn't matter if list value is out of range as long as it's not ref'd again, no need to set for edge case (no more planets)
+                    #Actual gamestate check
+                    if killed:
+                        print("Oh no! The planet you were on exploded! You die a fiery death.")
+                        dead = True
         
-    elif player[3] > planets[destination][0][0] and planets[destination][0][1] >= 0: #don't subtract or give fuel if no fuel left on planet, if player is more civ than aliens
-        try:
-            fuel_loss = random.randrange(1,planets[destination][0][1]+1)
-        except ValueError:
-            fuel_loss = 0 #For case of no fuel left on planet
-        planets[destination][0][1] -= fuel_loss
-        player[2] += fuel_loss
+        #Step 2(Movement)
+        choose_dest = input("Would you like to roll dice, or choose your destination? (C/D): ")
+        if choose_dest.lower() == 'c':
+            choose_dest = True
+        elif choose_dest.lower() == 'd':
+            choose_dest = False
+        else:
+            print("Hey! That's not a valid choice!")
+        ##Actual movement calculations
+        if choose_dest:
+            try:
+                destination=int(input("Which Planet would you like to go to?: "))   # OR can be roll dice instead of input, stop with blank input with newline, put a counter to stop after so many turns ##Validate wrt # of planets #valid this with an if, if true do everything else, if false continue loop
+                gfx.travel(planets[destination][2],player) #works, after trying to travel to 10th planet that doesnt exist, dies
+            except ValueError and IndexError:
+                print("That's not a valid planet to go to!")
+        elif not choose_dest:
+            roll = ngfx.DiceRoll(6)
+            print("You rolled a", roll,"!")
+            input() #To allow user to respond
+            if gfx.isGraphic:
+                destination = ngfx.a_c_l(planets,ngfx.find_pos(planets, player[1]),roll) #advance_circularly_list, workaround for jack's code
+            elif not gfx.isGraphic:
+                destination = ngfx.a_c_l(planets, player[1], roll)
+            gfx.travel(planets[destination][2],player)
         
-    elif player[3] == planets[destination][0][0]: #if player same civ as aliens
-        try:
-            player_fuel_loss = random.randrange(1, int(player[2]/2)+1)
-        except ValueError:
-            player_fuel_loss = random.getrandbits(1) #For 1 fuel base case (int(0.5) => 0)
-        player[2] -= player_fuel_loss
-    
-    if player[2] > 0: #premature death check (fuel only, planet is confirmed alive)
-        rock_loss = planets[destination][0][2]//3 #If planet left with 1-2 rocks, will never get (but intentional)
-        planets[destination][0][2] -= rock_loss
-        player[4].append(rock_loss)
+        #Step 3 (Aliens)
+        #Empty range is False!
+        if player[3] < planets[destination][0][0]: #if player is less civ than aliens
+            player[2] -= random.randrange(1,player[2]+1) #lose fuel, relies on having fuel death check before looping again
+            
+        elif player[3] > planets[destination][0][0] and planets[destination][0][1] >= 0: #don't subtract or give fuel if no fuel left on planet, if player is more civ than aliens
+            try:
+                fuel_loss = random.randrange(1,planets[destination][0][1]+1)
+            except ValueError:
+                fuel_loss = 0 #For case of no fuel left on planet
+            planets[destination][0][1] -= fuel_loss
+            player[2] += fuel_loss
+            
+        elif player[3] == planets[destination][0][0]: #if player same civ as aliens
+            try:
+                player_fuel_loss = random.randrange(1, int(player[2]/2)+1)
+            except ValueError:
+                player_fuel_loss = random.getrandbits(1) #For 1 fuel base case (int(0.5) => 0)
+            player[2] -= player_fuel_loss
         
-    #Step 3.5 (After aliens gamestate check), if he isPythonPlanet he wins regardless of stranded or not
-    if planets[destination][1]:
-        print("Congratualations! You have reached PythonPlanet! You win!")
-        win = True
-    elif player[2] <= 0:
-        print("Oh no! You're out of fuel! You become stranded. You lose!")
-        dead = True
-    #Turn timer gamestate check
-    max_turns -=1
+        if player[2] > 0: #premature death check (fuel only, planet is confirmed alive)
+            rock_loss = planets[destination][0][2]//3 #If planet left with 1-2 rocks, will never get (but intentional)
+            planets[destination][0][2] -= rock_loss
+            player[4].append(rock_loss)
+            
+        #Step 3.5 (After aliens gamestate check), if he isPythonPlanet he wins regardless of stranded or not
+        if planets[destination][1]:
+            print("Congratualations! You have reached PythonPlanet! You win!")
+            win = True
+        elif player[2] <= 0:
+            print("Oh no! You're out of fuel! You become stranded. You lose!")
+            dead = True
+        #Turn timer gamestate check
+        max_turns -= 1
+        
+    #Still playing check
+    playing = ngfx.endgame_response(dead, win, max_turns, playing)
+
+
 
 if gfx.isGraphic: #keep in, needed to pause to be windoze friendly
     turtle.mainloop()
