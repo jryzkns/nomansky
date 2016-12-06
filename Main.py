@@ -130,7 +130,7 @@ ngfx.calc_str_to_int(planets)
 dead = False
 win = False
 
-while not dead and not win: ##main game loop
+while not dead and not win and max_turns: ##main game loop #Implicit boolean in max_turns, times out at 0
     ##Update Game board
     
     #Step 0 (Update gameboard for player)
@@ -150,15 +150,16 @@ while not dead and not win: ##main game loop
             #amazing also has mild calculations, keep mild as default
             gfx.MildExplosion(planets[exploding_planet])
             ngfx.explosion_rock_calc(exploding_planet, planets)
-            if amazing:
+            if amazing: #amazing calcs
                 gfx.AmazingExplosion(planets[exploding_planet], planets) #First wipe, then check, lastly set dead
-                killed = False
+                killed = False #death iterator, don't want to kill loop before gfx finish
                 if gfx.isGraphic:
                     if exploding_planet == find_pos(planets, player[1]):
                         killed = True
                 else:
                     if exploding_planet == player[1]:
                         killed = True #Doesn't matter if list value is out of range as long as it's not ref'd again, no need to set for edge case (no more planets)
+                #Actual gamestate check
                 if killed:
                     print("Oh no! The planet you were on exploded! You die a fiery death.")
                     dead = True
@@ -220,7 +221,8 @@ while not dead and not win: ##main game loop
     elif player[2] <= 0:
         print("Oh no! You're out of fuel! You become stranded. You lose!")
         dead = True
-
+    #Turn timer gamestate check
+    max_turns -=1
 
 if gfx.isGraphic: #keep in, needed to pause to be windoze friendly
     turtle.mainloop()
