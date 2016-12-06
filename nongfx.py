@@ -86,6 +86,9 @@ def endgame_response(dead, win, max_turns, playing):
             return True
         elif keep_playing.lower == 'n':
             return False
+        else:
+            continue
+        break
             
 '''
 def ar_init(planets, graphics): #aliens and rocks appender to main planets matrix
