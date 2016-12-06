@@ -2,4 +2,7 @@ The project was done by Brian Fu and I(Jack Zhou), we originally had Daniel Lee 
 
 Regardless, the project was split into two pieces among Brian and I. I worked on the graphics(which is quite a major component of this project), file import, and the setup of Data Structures while Brian worked on the back-end material: The user input validation, the core game mechanics, and calculations. The Project did not take a significant amount of time to complete, but we as a team found it an extremely educational experience, as we learned to use and collaborate our work with greater ease through github. Brian also taught me how to not write in speghetti just because I'm hungry because the act of doing so makes him hungry too.
 
+The project has 3 main parts, Main, graphics, and nongfx, all of which are dependent of each other. Make sure they are all in the same directory, then run Main.py to run the program
+
 Jack 'jryzkns' Zhou, 16-3
+Brian Fu, CMPT 120 D100
