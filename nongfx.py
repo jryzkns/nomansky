@@ -94,8 +94,8 @@ def rocklst(planets): #Find all the rock values and put them into a list
 #dependencies: obtain_list_0s_1s, convert_2_to_10, rocklst
 def endgame_calcs(planets):
     print("Here are the endgame calculations: ")
-    rocklst = rocklst(planets)
-    converted_lst = obtain_list_0s_1s(rocklst)
+    rocks = rocklst(planets)
+    converted_lst = obtain_list_0s_1s(rocks)
     print("The converted list of rock specimens to a binary list is:\n", converted_lst)
     binary = convert_2_to_10(converted_lst)
     print("The conversion of the binary list to base 10 is:\n", binary)
