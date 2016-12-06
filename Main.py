@@ -266,9 +266,12 @@ while playing:
         turtle.reset() #will only occur if keep playing
 
 print("Thanks for playing!")
+ngfx.endgame_calcs(planets)
 
 if gfx.isGraphic: #keep in, needed to pause to be windoze friendly
     turtle.exitonclick()
+
+
 
 
 #at the end of the main, put a gfx.turtle.reset() after a y/n do you want to keep playing and if isGraphic gate, else do turtle.mainloop() and turtle.exitonclick() with a ty msg (only ty msg if not gfx), as well as kill the loop

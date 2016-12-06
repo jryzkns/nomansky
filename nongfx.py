@@ -21,13 +21,10 @@ def init(planets): #run after the gfx.init (through an if gate), converts the re
     for i in range (0,len(planets)):
         planets[i].append(i)
         
-        
 def a_c_l(lst,pos,adv): #advance_circularly_list
     #iterator = 0
-    
     if pos >= len(lst):
         return -1
-    
     for i in range (adv):
         if pos >= len(lst)-1:
             pos = 0
@@ -35,9 +32,7 @@ def a_c_l(lst,pos,adv): #advance_circularly_list
         else:    
             pos += 1
             #print(pos)
-    
     return pos
-
 
 def find_pos(matrix, find_value): #workaround for jack's code
     for i in range(len(matrix)):
@@ -70,7 +65,40 @@ def explosion_rock_calc(exploding_planet, planets):
     modded_rocklst = listmod(rocklst)
     for i in range(len(modded_rocklst)):
         planets[i][0][2] = modded_rocklst[i]
-    #void    
+    #void
+    
+def obtain_list_0s_1s(lst):
+    res = []
+    for i in lst:
+        if (i % 2 == 0):
+            res.append(0)
+        else:
+            res.append(1)
+    return res
+
+def convert_2_to_10(lst):
+    res = 0
+    i2 = 0 #second loop iterator
+    for i in range(len(lst)-1,-1,-1): #range should be set at start of loop execution
+        res += lst[i] * 2 ** i2
+        del lst[i]
+        i2 += 1
+    return res
+
+def rocklst(planets): #Find all the rock values and put them into a list
+    rocklst = []
+    for i in range(len(planets)):
+        rocklst.append(planets[i][0][2])
+    return rocklst
+
+#dependencies: obtain_list_0s_1s, convert_2_to_10, rocklst
+def endgame_calcs(planets):
+    print("Here are the endgame calculations: ")
+    rocklst = rocklst(planets)
+    converted_lst = obtain_list_0s_1s(rocklst)
+    print("The converted list of rock specimens to a binary list is:\n", converted_lst)
+    binary = convert_2_to_10(converted_lst)
+    print("The conversion of the binary list to base 10 is:\n", binary)
 
 #dependency: find_pos
 def updateboard(planets, player, graphics):
