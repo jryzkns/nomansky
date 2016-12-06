@@ -72,8 +72,25 @@ def explosion_rock_calc(exploding_planet, planets):
         planets[i][0][2] = modded_rocklst[i]
     #void    
 
+#dependency: find_pos
+def updateboard(planets, player, graphics):
+    '''updates the shell with pertinent game information, only contains prints'''
+    print("The Galaxy:")
+    ##please get the spacing right here, all the info is printed but
+    ##the spacing is off
+    print("Planet, AlienCiv, Fuel, Rocks, Python Planet?")
+    for i in range(len(planets)):
+        print("", i,"\t",planets[i][0][0],"\t  ",planets[i][0][1],"\t",planets[i][0][2],"\t",planets[i][1])
+    print("The Astronaut:")
+    if graphics:
+        print("Name:",player[0],"\nPosition:",find_pos(planets,player[1]),"\nCurrent Fuel:",player[2],"\nCurrent Rocks:",player[4])
+    else:
+        print("Name:",player[0],"\nPosition:",player[1],"\nCurrent Fuel:",player[2],"\nCurrent Rocks:",player[4])
+    print("The Astronaut is Alive.")
+    print()
+
 #dependency: jack's update print func
-def endgame_response(dead, win, max_turns, playing):
+def endgame_response(dead, win, max_turns, playing, planets, player, graphics):
     if win:
         print("The game is over. You have won!")
     elif dead:
@@ -81,7 +98,10 @@ def endgame_response(dead, win, max_turns, playing):
     elif not max_turns: #elif max_turns count reaches 0
         print("Oh no! You have run out of turns!")
         print("You were too slow in your quest. You have lost.")
-    #jack's update print func
+    print()    
+    print("Death Recap")
+    print()
+    updateboard(planets, player, graphics)
     while True:
         keep_playing = str(input("Play Again? (Y/N): "))
         if keep_playing.lower() == 'y':

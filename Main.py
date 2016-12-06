@@ -118,7 +118,8 @@ while playing:
             else:
                 raise ValueError
             
-            break
+            break #if reached here, kill validation loop - it is complete
+   
         except ValueError:
             print("Hey! Some of those value(s) were incorrect, please enter them again!")
             print()
@@ -137,17 +138,13 @@ while playing:
     
     #Level 2 (Main game loop)
     
+    #Define Initial vars
     dead = False
     win = False
-    
     moved = True #Assume everything happens on init (since planet 0 is immune)
+    ngfx.updateboard(planets,player,gfx.isGraphic) #For initial board show
     
     while not dead and not win and max_turns: ##main game loop #Implicit boolean in max_turns, times out at 0
-        ##Update Game board
-        
-        #Step 0 (Update gameboard for player)
-        
-        
         #Step 1 (Check explosions)
         if explosions and moved:
             exploding_planet = random.randrange(1,(len(planets)*5)+1)
@@ -220,7 +217,10 @@ while playing:
         #Empty range is False!
         if moved:
             if player[3] < planets[destination][0][0]: #if player is less civ than aliens
-                player[2] -= random.randrange(1,player[2]+1) #lose fuel, relies on having fuel death check before looping again
+                player_fuel_loss = random.randrange(1,player[2]+1) #lose fuel, relies on having fuel death check before looping again
+                player[2] -= player_fuel_loss
+                print("Oh no! The Astronaut battled against Aliens and lost!")
+                print("The Astronaut lost", player_fuel_loss, "fuel!")
                 
             elif player[3] > planets[destination][0][0] and planets[destination][0][1] >= 0: #don't subtract or give fuel if no fuel left on planet, if player is more civ than aliens
                 try:
@@ -229,6 +229,8 @@ while playing:
                     fuel_loss = 0 #For case of no fuel left on planet
                 planets[destination][0][1] -= fuel_loss
                 player[2] += fuel_loss
+                print("The Astronaut battled against Aliens and won!")
+                print("The Astronaut gained", fuel_loss, "fuel!")
                 
             elif player[3] == planets[destination][0][0]: #if player same civ as aliens
                 try:
@@ -236,6 +238,8 @@ while playing:
                 except ValueError:
                     player_fuel_loss = random.getrandbits(1) #For 1 fuel base case (int(0.5) => 0)
                 player[2] -= player_fuel_loss
+                print("The Astronaut battled against Aliens, but was evenly matched.")
+                print("The Astronaut lost", player_fuel_loss, "fuel.")
             
             if player[2] > 0: #premature death check (fuel only, planet is confirmed alive)
                 rock_loss = planets[destination][0][2]//3 #If planet left with 1-2 rocks, will never get (but intentional)
@@ -249,17 +253,22 @@ while playing:
             elif player[2] <= 0:
                 print("Oh no! You're out of fuel! You become stranded. You lose!")
                 dead = True
+            
+            #Last Step
+            ngfx.updateboard(planets,player,gfx.isGraphic) #Board update
                 
             #Turn timer gamestate check
             max_turns -= 1
-        
+            
     #Still playing check
-    playing = ngfx.endgame_response(dead, win, max_turns, playing)
+    playing = ngfx.endgame_response(dead, win, max_turns, playing, planets, player, gfx.isGraphic)
+    if gfx.isGraphic:
+        turtle.reset() #will only occur if keep playing
 
-
+print("Thanks for playing!")
 
 if gfx.isGraphic: #keep in, needed to pause to be windoze friendly
-    turtle.mainloop()
+    turtle.exitonclick()
 
 
 #at the end of the main, put a gfx.turtle.reset() after a y/n do you want to keep playing and if isGraphic gate, else do turtle.mainloop() and turtle.exitonclick() with a ty msg (only ty msg if not gfx), as well as kill the loop
