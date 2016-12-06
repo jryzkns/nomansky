@@ -102,7 +102,7 @@ while playing:
             #will raise IndexError if invalid
             print()
             
-            graphics = input("Please indicate if you would like to see graphics or not (Y/N): ")
+            graphics = input("Disclaimer: No graphics will be processed if using above 10 planets!\nPlease indicate if you would like to see graphics or not (Y/N): ")
             #IndexError is raised in the resulting function
             print()
             
@@ -178,17 +178,20 @@ while playing:
         print()
         if choose_dest.lower() == 'c':
             choose_dest = True
+            invalid = False
         elif choose_dest.lower() == 'd':
             choose_dest = False
+            invalid = False
             moved = True #might as well set here, can't roll wrong
         else:
             moved = False
+            invalid = True
             print("Hey! That's not a valid choice!")
             print()
             
         ##Actual movement calculations
-        if choose_dest:
-            v_dest = False #valid destination
+        if choose_dest and not invalid:
+            v_dest = False #validate destination
             try: #try excepts do NOT work if the error happens in a function
                 destination=int(input("Which Planet would you like to go to?: "))   # OR can be roll dice instead of input, stop with blank input with newline, put a counter to stop after so many turns ##Validate wrt # of planets #valid this with an if, if true do everything else, if false continue loop
                 print()
@@ -203,7 +206,7 @@ while playing:
                 moved = False
                 print()                
     
-        elif not choose_dest: #if diceroll
+        elif not choose_dest and not invalid: #if diceroll
             roll = ngfx.DiceRoll(6)
             print("You rolled a", roll,"! (Press Enter To Continue)")
             input() #To allow user to respond
