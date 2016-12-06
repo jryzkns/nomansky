@@ -1,0 +1,149 @@
+3.5.2 (default, Nov 17 2016, 17:05:23) 
+[GCC 5.4.0 20160609]
+Python Type "help", "copyright", "credits" or "license" for more information.
+[evaluate Main.py]
+Welcome to Planets, Aliens, and Explosions
+
+DISCLAIMER: Graphics will only be enabled for [0,10] planets
+Please enter the full name of the UTF-8 file to import: planetsData1.txt
+
+What's the maximum number of turns?: 3
+
+Would you like explosions? (Y/N): y
+
+What's your name?: Jack
+
+How much fuel will you start with?: 12
+
+Please indicate your civilization level (0 to 3 including): 0
+
+Which Planet would you like to make to be the PythonPlanet?
+Please enter a planet that exists in your import file: 8
+
+Please indicate if you would like to see graphics or not (Y/N): n
+
+The Galaxy:
+Planet, AlienCiv, Fuel, Rocks, Python Planet?
+ 0 	 0 	   0 	 0 	 False
+ 1 	 1 	   10 	 20 	 False
+ 2 	 3 	   10 	 15 	 False
+ 3 	 2 	   30 	 20 	 False
+ 4 	 1 	   0 	 5 	 False
+ 5 	 1 	   10 	 6 	 False
+ 6 	 3 	   10 	 30 	 False
+ 7 	 3 	   10 	 4 	 False
+ 8 	 1 	   10 	 6 	 True
+ 9 	 3 	   10 	 30 	 False
+The Astronaut:
+Name: Jack 
+Position: 0 
+Current Fuel: 12 
+Current Rocks: []
+The Astronaut is Alive.
+
+Would you like to roll dice, or choose your destination? (C/D): d
+
+You rolled a 1 ! (Press Enter To Continue)
+
+Oh no! The Astronaut battled against Aliens and lost!
+The Astronaut lost 6 fuel!
+The Galaxy:
+Planet, AlienCiv, Fuel, Rocks, Python Planet?
+ 0 	 0 	   0 	 0 	 False
+ 1 	 1 	   10 	 14 	 False
+ 2 	 3 	   10 	 15 	 False
+ 3 	 2 	   30 	 20 	 False
+ 4 	 1 	   0 	 5 	 False
+ 5 	 1 	   10 	 6 	 False
+ 6 	 3 	   10 	 30 	 False
+ 7 	 3 	   10 	 4 	 False
+ 8 	 1 	   10 	 6 	 True
+ 9 	 3 	   10 	 30 	 False
+The Astronaut:
+Name: Jack 
+Position: 1 
+Current Fuel: 6 
+Current Rocks: [6]
+The Astronaut is Alive.
+
+Would you like to roll dice, or choose your destination? (C/D): d
+
+You rolled a 5 ! (Press Enter To Continue)
+
+Oh no! The Astronaut battled against Aliens and lost!
+The Astronaut lost 4 fuel!
+The Galaxy:
+Planet, AlienCiv, Fuel, Rocks, Python Planet?
+ 0 	 0 	   0 	 0 	 False
+ 1 	 1 	   10 	 14 	 False
+ 2 	 3 	   10 	 15 	 False
+ 3 	 2 	   30 	 20 	 False
+ 4 	 1 	   0 	 5 	 False
+ 5 	 1 	   10 	 6 	 False
+ 6 	 3 	   10 	 20 	 False
+ 7 	 3 	   10 	 4 	 False
+ 8 	 1 	   10 	 6 	 True
+ 9 	 3 	   10 	 30 	 False
+The Astronaut:
+Name: Jack 
+Position: 6 
+Current Fuel: 2 
+Current Rocks: [6, 10]
+The Astronaut is Alive.
+
+Would you like to roll dice, or choose your destination? (C/D): d
+
+You rolled a 6 ! (Press Enter To Continue)
+
+Oh no! The Astronaut battled against Aliens and lost!
+The Astronaut lost 1 fuel!
+The Galaxy:
+Planet, AlienCiv, Fuel, Rocks, Python Planet?
+ 0 	 0 	   0 	 0 	 False
+ 1 	 1 	   10 	 14 	 False
+ 2 	 3 	   10 	 10 	 False
+ 3 	 2 	   30 	 20 	 False
+ 4 	 1 	   0 	 5 	 False
+ 5 	 1 	   10 	 6 	 False
+ 6 	 3 	   10 	 20 	 False
+ 7 	 3 	   10 	 4 	 False
+ 8 	 1 	   10 	 6 	 True
+ 9 	 3 	   10 	 30 	 False
+The Astronaut:
+Name: Jack 
+Position: 2 
+Current Fuel: 1 
+Current Rocks: [6, 10, 5]
+The Astronaut is Alive.
+
+Oh no! You have run out of turns!
+You were too slow in your quest. You have lost.
+
+Death Recap
+
+The Galaxy:
+Planet, AlienCiv, Fuel, Rocks, Python Planet?
+ 0 	 0 	   0 	 0 	 False
+ 1 	 1 	   10 	 14 	 False
+ 2 	 3 	   10 	 10 	 False
+ 3 	 2 	   30 	 20 	 False
+ 4 	 1 	   0 	 5 	 False
+ 5 	 1 	   10 	 6 	 False
+ 6 	 3 	   10 	 20 	 False
+ 7 	 3 	   10 	 4 	 False
+ 8 	 1 	   10 	 6 	 True
+ 9 	 3 	   10 	 30 	 False
+The Astronaut:
+Name: Jack 
+Position: 2 
+Current Fuel: 1 
+Current Rocks: [6, 10, 5]
+The Astronaut is Alive.
+
+Play Again? (Y/N): n
+Thanks for playing!
+Here are the endgame calculations: 
+The converted list of rock specimens to a binary list is:
+ [0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+The conversion of the binary list to base 10 is:
+ 32
