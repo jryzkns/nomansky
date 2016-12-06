@@ -51,7 +51,6 @@ presetplanet = [planet0,planet1,planet2,planet3,planet4,planet5,planet6,planet7,
 while playing:
 
     #Level 1 (inputs and validation)
-    
     #begin validation
     while True:
         try:        

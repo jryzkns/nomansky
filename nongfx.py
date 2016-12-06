@@ -81,14 +81,11 @@ def endgame_response(dead, win, max_turns, playing):
         print("Oh no! You have run out of turns!")
         print("You were too slow in your quest. You have lost.")
     while True:
-        keep_playing = input("Play Again? (Y/N): ")
-        if keep_playing.lower == 'y':
+        keep_playing = str(input("Play Again? (Y/N): "))
+        if keep_playing.lower() == 'y':
             return True
-        elif keep_playing.lower == 'n':
+        elif keep_playing.lower() == 'n':
             return False
-        else:
-            continue
-        break
             
 '''
 def ar_init(planets, graphics): #aliens and rocks appender to main planets matrix
