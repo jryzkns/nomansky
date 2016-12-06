@@ -249,6 +249,7 @@ while playing:
             elif player[2] <= 0:
                 print("Oh no! You're out of fuel! You become stranded. You lose!")
                 dead = True
+                
             #Turn timer gamestate check
             max_turns -= 1
         
