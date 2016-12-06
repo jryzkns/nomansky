@@ -186,7 +186,7 @@ while playing:
                 print("That's not a valid planet to go to!")
         elif not choose_dest:
             roll = ngfx.DiceRoll(6)
-            print("You rolled a", roll,"!")
+            print("You rolled a", roll,"! (Press Enter To Continue)")
             input() #To allow user to respond
             if gfx.isGraphic:
                 destination = ngfx.a_c_l(planets,ngfx.find_pos(planets, player[1]),roll) #advance_circularly_list, workaround for jack's code
