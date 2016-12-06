@@ -45,7 +45,41 @@ def find_pos(matrix, find_value): #workaround for jack's code
             if k == find_value:
                 return i
 
-def explosion_rock_calc(exploding_planet):
+def calc_str_to_int(planets): #Turn the planet calc data inside the processed matricies from strs to ints
+    for i in range(len(planets)):
+        for k in range(len(planets[i][0])): #3 pieces by default
+            planets[i][0][k] = int(planets[i][0][k])
+    #void, relies on global vars
+    
+#explosion_rock_calc dependency, god bless jack
+def listmod(ls):
+    resls=[]
+    for i in range(len(ls)):
+        sum=0
+        for num in ls:
+            sum += num
+        ls.remove(ls[0])
+        resls.append(sum)
+    return resls
+
+#Dependency: listmod
+def explosion_rock_calc(exploding_planet, planets):
+    rocklst = []
+    for i in range(1,exploding_planet): 
+        rocklst.append(planets[i][0][2])
+    modded_rocklst = listmod(rocklst)
+    for i in range(len(modded_rocklst)):
+        planets[i][0][2] = modded_rocklst[i]
+    #void    
+    
+'''
+def ar_init(planets, graphics): #aliens and rocks appender to main planets matrix
+    #print(graphics)
+    a_it = [] 
+    for i in range(len(planets)):    
+        bool(random.getrandbits(1))
+        
+def explosion_rock_calc(planets[exploding_planet], planets):
     for i in range(exploding_planet-1,-1,-1):   
         #planets[i][0][2] [0][2] [0][2]
         for k in range(exploding_planet):
@@ -54,19 +88,4 @@ def explosion_rock_calc(exploding_planet):
             
 planets = [10,20,30]
 #explosion_rock_calc(2
-
-def calc_str_to_int(planets): #Turn the planet calc data inside the processed matricies from strs to ints
-    for i in range(len(planets)):
-        for k in range(len(planets[i][0])): #3 pieces by default
-            planets[i][0][k] = int(planets[i][0][k])
-    #void, relies on global vars
-
 '''
-def ar_init(planets, graphics): #aliens and rocks appender to main planets matrix
-    #print(graphics)
-    a_it = [] 
-    for i in range(len(planets)):    
-        bool(random.getrandbits(1))
-'''
-        
-    

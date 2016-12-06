@@ -107,7 +107,8 @@ while True:
             gfx.init(file, pythonplanet, presetplanet, planets, player, graphics) #gfx.init loads the file regardless of gfx
             #try raise except this
         except IndexError and FileNotFoundError:
-            raise ValueError        
+            raise ValueError
+        
         break
     except ValueError:
         print("Hey! Some of those value(s) were incorrect, please enter them again!")
@@ -139,7 +140,6 @@ while not dead and not win: ##main game loop
     if explosions:
         exploding_planet = random.randrange(1,(len(planets)*5)+1)
         if exploding_planet in range (len(planets)): #Don't do the calculations if exploding_planet isn't on board!
-            
             #Check for whether amazing or mild explosion
             if bool(random.getrandbits(1)):
                 amazing = True
@@ -149,17 +149,19 @@ while not dead and not win: ##main game loop
                 mild = True
             #amazing also has mild calculations, keep mild as default
             gfx.MildExplosion(planets[exploding_planet])
-            '''
-            for i in range(exploding_planet-1,-1,-1):
-                #planets[i][0][2]
-                for k in range(exploding_planet):
-                    planets[k][0][2] += planets[i][0][2]
-            '''
+            ngfx.explosion_rock_calc(exploding_planet, planets)
             if amazing:
-                gfx.AmazingExplosion(planets[exploding_planet], planets)
-                
-            
-        
+                gfx.AmazingExplosion(planets[exploding_planet], planets) #First wipe, then check, lastly set dead
+                killed = False
+                if gfx.isGraphic:
+                    if exploding_planet == find_pos(planets, player[1]):
+                        killed = True
+                else:
+                    if exploding_planet == player[1]:
+                        killed = True #Doesn't matter if list value is out of range as long as it's not ref'd again, no need to set for edge case (no more planets)
+                if killed:
+                    print("Oh no! The planet you were on exploded! You die a fiery death.")
+                    dead = True
     
     #Step 2(Movement)
     choose_dest = input("Would you like to roll dice, or choose your destination? (C/D): ")
@@ -169,7 +171,7 @@ while not dead and not win: ##main game loop
         choose_dest = False
     else:
         print("Hey! That's not a valid choice!")
-    
+    ##Actual movement calculations
     if choose_dest:
         try:
             destination=int(input("Which Planet would you like to go to?: "))   # OR can be roll dice instead of input, stop with blank input with newline, put a counter to stop after so many turns ##Validate wrt # of planets #valid this with an if, if true do everything else, if false continue loop
@@ -218,17 +220,19 @@ while not dead and not win: ##main game loop
     elif player[2] <= 0:
         print("Oh no! You're out of fuel! You become stranded. You lose!")
         dead = True
-    '''
-    #the main 3 to run
-    gfx.MildExplosion(planets[destination]) #only draws, need to spread rock specimens in calc
-    #gfx.AmazingExplosion(planets[1],planets) #kills the planet graphically and irl or just irl
-    '''
+
 
 if gfx.isGraphic: #keep in, needed to pause to be windoze friendly
     turtle.mainloop()
 
 
 #at the end of the main, put a gfx.turtle.reset() after a y/n do you want to keep playing and if isGraphic gate, else do turtle.mainloop() and turtle.exitonclick() with a ty msg (only ty msg if not gfx), as well as kill the loop
+
+'''
+#the main 3 to run
+gfx.MildExplosion(planets[destination]) #only draws, need to spread rock specimens in calc
+#gfx.AmazingExplosion(planets[1],planets) #kills the planet graphically and irl or just irl
+'''
 
 '''
 #modifies the isPythonPlanet parameter to true, to be used at the beginning of game loop
