@@ -215,10 +215,9 @@ def astronautinit(planets,player):
     astronaut.speed(1)
     astronaut.color("#DCDCDC")
     astronaut.pensize(10)
-def init(file, pythonplanet, presetplanet, planets, player, graphics):
+def init(file, presetplanet, planets, player, graphics):
     '''initiatizes everything'''
     loadfile(file, presetplanet, planets)
-    setPythonPlanet(pythonplanet, planets)
     global isGraphic
     if planetcount > 10:
         isGraphic = False

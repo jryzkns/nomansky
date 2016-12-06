@@ -109,15 +109,21 @@ while playing:
             
             try:
                 #initialize
-                gfx.init(file, pythonplanet, presetplanet, planets, player, graphics) #gfx.init loads the file regardless of gfx
+                gfx.init(file, presetplanet, planets, player, graphics) #gfx.init loads the file regardless of gfx
                 #try raise except this
             except IndexError and FileNotFoundError:
+                raise ValueError
+            
+            if pythonplanet in range(len(planets)):
+                gfx.setPythonPlanet(pythonplanet, planets)
+            else:
                 raise ValueError
             
             break
         except ValueError:
             print("Hey! Some of those value(s) were incorrect, please enter them again!")
             print()
+            continue
     
     #end validation
     
@@ -142,7 +148,7 @@ while playing:
         
         
         #Step 1 (Check explosions)
-        if explosions:
+        if explosions and moved:
             exploding_planet = random.randrange(1,(len(planets)*5)+1)
             if exploding_planet in range (len(planets)): #Don't do the calculations if exploding_planet isn't on board!
                 #Check for whether amazing or mild explosion
@@ -171,20 +177,35 @@ while playing:
         
         #Step 2(Movement)
         choose_dest = input("Would you like to roll dice, or choose your destination? (C/D): ")
+        print()
         if choose_dest.lower() == 'c':
             choose_dest = True
         elif choose_dest.lower() == 'd':
             choose_dest = False
+            moved = True #might as well set here, can't roll wrong
         else:
+            moved = False
             print("Hey! That's not a valid choice!")
+            print()
+            
         ##Actual movement calculations
         if choose_dest:
-            try:
+            v_dest = False #valid destination
+            try: #try excepts do NOT work if the error happens in a function
                 destination=int(input("Which Planet would you like to go to?: "))   # OR can be roll dice instead of input, stop with blank input with newline, put a counter to stop after so many turns ##Validate wrt # of planets #valid this with an if, if true do everything else, if false continue loop
-                gfx.travel(planets[destination][2],player) #works, after trying to travel to 10th planet that doesnt exist, dies
-            except ValueError and IndexError:
+                print()
+                if destination in range (len(planets)): #relies on lazy eval.
+                    gfx.travel(planets[destination][2],player) #works, after trying to travel to nth planet that doesnt exist, dies
+                v_dest = True
+            except ValueError:
+                pass
+            
+            if not v_dest: #In game error handling for invalid destination
                 print("That's not a valid planet to go to!")
-        elif not choose_dest:
+                moved = False
+                print()                
+    
+        elif not choose_dest: #if diceroll
             roll = ngfx.DiceRoll(6)
             print("You rolled a", roll,"! (Press Enter To Continue)")
             input() #To allow user to respond
@@ -196,38 +217,39 @@ while playing:
         
         #Step 3 (Aliens)
         #Empty range is False!
-        if player[3] < planets[destination][0][0]: #if player is less civ than aliens
-            player[2] -= random.randrange(1,player[2]+1) #lose fuel, relies on having fuel death check before looping again
+        if moved:
+            if player[3] < planets[destination][0][0]: #if player is less civ than aliens
+                player[2] -= random.randrange(1,player[2]+1) #lose fuel, relies on having fuel death check before looping again
+                
+            elif player[3] > planets[destination][0][0] and planets[destination][0][1] >= 0: #don't subtract or give fuel if no fuel left on planet, if player is more civ than aliens
+                try:
+                    fuel_loss = random.randrange(1,planets[destination][0][1]+1)
+                except ValueError:
+                    fuel_loss = 0 #For case of no fuel left on planet
+                planets[destination][0][1] -= fuel_loss
+                player[2] += fuel_loss
+                
+            elif player[3] == planets[destination][0][0]: #if player same civ as aliens
+                try:
+                    player_fuel_loss = random.randrange(1, int(player[2]/2)+1)
+                except ValueError:
+                    player_fuel_loss = random.getrandbits(1) #For 1 fuel base case (int(0.5) => 0)
+                player[2] -= player_fuel_loss
             
-        elif player[3] > planets[destination][0][0] and planets[destination][0][1] >= 0: #don't subtract or give fuel if no fuel left on planet, if player is more civ than aliens
-            try:
-                fuel_loss = random.randrange(1,planets[destination][0][1]+1)
-            except ValueError:
-                fuel_loss = 0 #For case of no fuel left on planet
-            planets[destination][0][1] -= fuel_loss
-            player[2] += fuel_loss
-            
-        elif player[3] == planets[destination][0][0]: #if player same civ as aliens
-            try:
-                player_fuel_loss = random.randrange(1, int(player[2]/2)+1)
-            except ValueError:
-                player_fuel_loss = random.getrandbits(1) #For 1 fuel base case (int(0.5) => 0)
-            player[2] -= player_fuel_loss
-        
-        if player[2] > 0: #premature death check (fuel only, planet is confirmed alive)
-            rock_loss = planets[destination][0][2]//3 #If planet left with 1-2 rocks, will never get (but intentional)
-            planets[destination][0][2] -= rock_loss
-            player[4].append(rock_loss)
-            
-        #Step 3.5 (After aliens gamestate check), if he isPythonPlanet he wins regardless of stranded or not
-        if planets[destination][1]:
-            print("Congratualations! You have reached PythonPlanet! You win!")
-            win = True
-        elif player[2] <= 0:
-            print("Oh no! You're out of fuel! You become stranded. You lose!")
-            dead = True
-        #Turn timer gamestate check
-        max_turns -= 1
+            if player[2] > 0: #premature death check (fuel only, planet is confirmed alive)
+                rock_loss = planets[destination][0][2]//3 #If planet left with 1-2 rocks, will never get (but intentional)
+                planets[destination][0][2] -= rock_loss
+                player[4].append(rock_loss)
+                
+            #Step 3.5 (After aliens gamestate check), if he isPythonPlanet he wins regardless of stranded or not
+            if planets[destination][1]:
+                print("Congratualations! You have reached PythonPlanet! You win!")
+                win = True
+            elif player[2] <= 0:
+                print("Oh no! You're out of fuel! You become stranded. You lose!")
+                dead = True
+            #Turn timer gamestate check
+            max_turns -= 1
         
     #Still playing check
     playing = ngfx.endgame_response(dead, win, max_turns, playing)
