@@ -1,0 +1,10 @@
+We assume that the inputted file is in UTF-8 and has the correct formatting, like this:
+
+0-0-0
+1-1-1
+2-2-2
+
+There is validation to check that the file exists, but not validation to check the inside of the file itself
+
+Also, since it isn't explicitly stated, I assumed that mild and amazing explosions have an equal chance of occuring (50/50), and thus have set it up as such.
+

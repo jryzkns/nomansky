@@ -141,6 +141,8 @@ while playing:
     dead = False
     win = False
     
+    moved = True #Assume everything happens on init (since planet 0 is immune)
+    
     while not dead and not win and max_turns: ##main game loop #Implicit boolean in max_turns, times out at 0
         ##Update Game board
         
