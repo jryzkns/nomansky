@@ -8,4 +8,4 @@ There is validation to check that the file exists, but not validation to check t
 
 Also, since it isn't explicitly stated, I assumed that mild and amazing explosions have an equal chance of occuring (50/50), and thus have set it up as such.
 
-As well, since it didnt say we can't, we have the user pick out which planet is PythonPlanet, and show it accordingly.
+As well, since it didnt say we can't, we have the user pick out which planet is PythonPlanet, and show it accordingly. This IS validated, but there is a disclaimer anyway, asking the user to please pick a PythonPlanet in the range of given planets.
